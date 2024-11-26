@@ -11,6 +11,9 @@ Functions:
     create_dataset_dictionary(config: Config) -> Dict[str, Dataset]:
         Creates a dictionary of datasets based on the configuration.
 
+    create_combined_dataloaders(config: Config) -> Tuple[DataLoader, DataLoader, DataLoader]:
+        Creates combined DataLoaders for training, validation, and testing datasets based on the provided configuration.
+
     epoch_train(model, normalizer, loader, optimizer, config, e) -> Tuple[torch.Tensor, Dict[str, float]]:
         Performs a single epoch of training on the given model.
 
@@ -52,7 +55,7 @@ from typing import Any, Callable, Dict, List, Optional, Tuple, Union
 import shutil
 import torch
 import torch.nn as nn
-from torch.utils.data import DataLoader, Dataset
+from torch.utils.data import DataLoader, Dataset, SubsetRandomSampler
 from tqdm import tqdm
 from tensorboardX import SummaryWriter
 
@@ -90,6 +93,60 @@ def create_dataset_dictionary(config: Config) -> Dict[str, Dataset]:
 
     return datasets, id_list
 
+
+def create_combined_dataloaders(config: Config) -> Tuple[DataLoader, DataLoader, DataLoader]:
+    """
+    Creates combined DataLoaders for training, validation, and testing datasets based on the provided configuration.
+
+    Args:
+        config (Config): Configuration object containing dataset specifications and parameters for data loading.
+
+    Returns:
+        Tuple[DataLoader, DataLoader, DataLoader]: 
+            - A tuple containing:
+                - DataLoader for the training dataset.
+                - DataLoader for the validation dataset (if applicable).
+                - DataLoader for the testing dataset.
+    """
+    datasets, id_list = create_dataset_dictionary(config)
+
+    # Filter datasets based on the common IDs
+    for el in config.datasets.keys():
+        datasets[el]._filter_dataframe_from_id_list(id_list)
+
+    # Combine all datasets into a single dataset
+    dataset_comb = torch.utils.data.ConcatDataset([datasets[el] for el in config.datasets.keys()])
+
+    sets_idx = {'train':[], 'test':[]}
+    if len(config.train_val_split) > 2:
+        sets_idx['val'] = []
+
+    # Calculate cumulative sizes for indexing
+    cum_sums = [0] + dataset_comb.cumulative_sizes
+    for ix_cum, el in enumerate(config.datasets.keys()):
+        idxs = datasets[el].patno_split_dataset(config.train_val_split, random_seed=config.random_seed)
+        sets_idx['train'].extend((torch.tensor(idxs[0]) + cum_sums[ix_cum]).tolist())
+        sets_idx['test'].extend((torch.tensor(idxs[-1]) + cum_sums[ix_cum]).tolist())
+        if len(config.train_val_split) > 2:
+            sets_idx['val'].extend((torch.tensor(idxs[1]) + cum_sums[ix_cum]).tolist())
+
+    # Create DataLoaders for training and testing
+    train_sampler = SubsetRandomSampler(sets_idx['train'])
+    test_sampler = SubsetRandomSampler(sets_idx['test'])
+    train_loader = DataLoader(dataset_comb, batch_size=config.batch_size, pin_memory=True, sampler=train_sampler)
+    test_loader = DataLoader(dataset_comb, batch_size=config.batch_size, pin_memory=True, sampler=test_sampler)
+
+    dataloaders = (train_loader,)
+
+    # If validation set exists, create its DataLoader
+    if len(config.train_val_split) > 2:
+        val_sampler = SubsetRandomSampler(sets_idx['val'])
+        val_loader = DataLoader(dataset_comb, batch_size=config.batch_size, pin_memory=True, sampler=val_sampler)
+        dataloaders += (val_loader,)
+
+    dataloaders += (test_loader,)
+
+    return dataloaders
 
 def init_experiment(config):
     """Initialize the experiment folder.
