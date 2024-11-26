@@ -1,7 +1,9 @@
 # Default configuration for data loading
 
 # Dataset parameters
-datasets: ['dian', 'adni']
+datasets:
+  dian: '~/datasets/dian/DF14/'
+  adni: '~/datasets/ADNI_PROCESSED/'
 modality: 'mri'
 selection: ['V']
 uptake_normalization: null

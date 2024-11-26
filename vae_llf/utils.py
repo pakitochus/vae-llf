@@ -49,7 +49,7 @@ Example:
 
 import os
 from typing import Any, Callable, Dict, List, Optional, Tuple, Union
-
+import shutil
 import torch
 import torch.nn as nn
 from torch.utils.data import DataLoader, Dataset
@@ -71,31 +71,40 @@ def create_dataset_dictionary(config: Config) -> Dict[str, Dataset]:
             - A list of unique IDs that are present in all specified datasets.
     """
     datasets = {}
-    if 'dallas' in config.datasets:
-        DALLASDIR = '/home/pakitochus/Universidad/Investigación/Databases/otros/Dallas Lifespan Brain Study/'
-        datasets['dallas'] = DallasDataset(DALLASDIR, config)
+    if 'dallas' in config.datasets.keys():
+        datasets['dallas'] = DallasDataset(config.datasets['dallas'], config)
 
-    if 'nacc' in config.datasets:
-        NACCDIR = '/home/pakitochus/Universidad/Investigación/Databases/alzheimer/NACC/'
-        datasets['nacc'] = NACCDataset(NACCDIR, config)
+    if 'nacc' in config.datasets.keys():
+        datasets['nacc'] = NACCDataset(config.datasets['nacc'], config)
 
-    if 'adni' in config.datasets:
-        ADNIDIR = '/home/pakitochus/Universidad/Investigación/Databases/alzheimer/ADNI_PROCESSED/'
-        datasets['adni'] = ADNIDataset(ADNIDIR, config)
+    if 'adni' in config.datasets.keys():
+        datasets['adni'] = ADNIDataset(config.datasets['adni'], config)
 
-    if 'dian' in config.datasets:
-        DBDIR = '/home/pakitochus/Universidad/Investigación/Databases/alzheimer/dian/DF14/'
-        datasets['dian'] = DIANDataset(DBDIR, config)
+    if 'dian' in config.datasets.keys():
+        datasets['dian'] = DIANDataset(config.datasets['dian'], config)
 
-    if 'oasis' in config.datasets:
-        DBDIR = '/home/pakitochus/Universidad/Investigación/Databases/alzheimer/OASIS3/tables/'
-        datasets['oasis'] = OASISDataset(DBDIR, config)
+    if 'oasis' in config.datasets.keys():
+        datasets['oasis'] = OASISDataset(config.datasets['oasis'], config)
 
-    id_list = list(set.intersection(*[set(datasets[el].features['id']) for el in config.datasets]))
+    id_list = list(set.intersection(*[set(datasets[el].features['id']) for el in config.datasets.keys()]))
 
     return datasets, id_list
 
 
+def init_experiment(config):
+    """Initialize the experiment folder.
+
+    Args:
+        config (Config): Configuration object.
+    """
+    if os.path.exists(config.model_name):
+        shutil.rmtree(config.model_name)
+
+    for subfolder in ['models', 'runs', 'results', 'figures']:
+        os.makedirs(os.path.join(config.model_name, subfolder))
+
+    shutil.copyfile('configs/config_ndim.yaml',
+                    os.path.join(config.model_name, 'config.yaml'))
 
 
 def epoch_train(model: torch.nn.Module, 

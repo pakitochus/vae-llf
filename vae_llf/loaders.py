@@ -33,7 +33,7 @@ class Config:
     Configuration settings for datasets and model training.
 
     Attributes:
-        datasets (List[str]): List of dataset names.
+        datasets (Dict[str, str]): Dictionary of dataset names and paths.
         batch_size (int): Size of each batch during training.
         modality (str): Modality of the data (e.g., 'mri').
         selection (List[str]): Features to select from the dataset.
@@ -62,7 +62,7 @@ class Config:
     """
 
     # Data config
-    datasets: List[str] = field(default_factory=lambda: ['dian'])
+    datasets: Dict[str, str] = field(default_factory=lambda: {'dian': 'path/to/dian'})
     batch_size: int = 128
     modality: str = 'mri'
     selection: List[str] = field(default_factory=lambda: ['V'])
