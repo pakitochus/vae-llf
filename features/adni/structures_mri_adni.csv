@@ -1,0 +1,314 @@
+feature,0,1,name,region,id,3,4
+ST10CV,10,Cortical Volume, Icv,,,,V
+ST13CV,13,Cortical Volume, LeftBankssts,ctx-lh-bankssts,19.0,L,V
+ST14CV,14,Cortical Volume, LeftCaudalAnteriorCingulate,ctx-lh-caudalanteriorcingulate,20.0,L,V
+ST15CV,15,Cortical Volume, LeftCaudalMiddleFrontal,ctx-lh-caudalmiddlefrontal,21.0,L,V
+ST23CV,23,Cortical Volume, LeftCuneus,ctx-lh-cuneus,22.0,L,V
+ST24CV,24,Cortical Volume, LeftEntorhinal,ctx-lh-entorhinal,23.0,L,V
+ST25CV,25,Cortical Volume, LeftFrontalPole,ctx-lh-frontalpole,49.0,L,V
+ST26CV,26,Cortical Volume, LeftFusiform,ctx-lh-fusiform,24.0,L,V
+ST31CV,31,Cortical Volume, LeftInferiorParietal,ctx-lh-inferiorparietal,25.0,L,V
+ST32CV,32,Cortical Volume, LeftInferiorTemporal,ctx-lh-inferiortemporal,26.0,L,V
+ST34CV,34,Cortical Volume, LeftIsthmusCingulate,ctx-lh-isthmuscingulate,27.0,L,V
+ST35CV,35,Cortical Volume, LeftLateralOccipital,ctx-lh-lateraloccipital,28.0,L,V
+ST36CV,36,Cortical Volume, LeftLateralOrbitofrontal,ctx-lh-lateralorbitofrontal,29.0,L,V
+ST38CV,38,Cortical Volume, LeftLingual,ctx-lh-lingual,30.0,L,V
+ST39CV,39,Cortical Volume, LeftMedialOrbitofrontal,ctx-lh-medialorbitofrontal,31.0,L,V
+ST40CV,40,Cortical Volume, LeftMiddleTemporal,ctx-lh-middletemporal,32.0,L,V
+ST43CV,43,Cortical Volume, LeftParacentral,ctx-lh-paracentral,34.0,L,V
+ST44CV,44,Cortical Volume, LeftParahippocampal,ctx-lh-parahippocampal,33.0,L,V
+ST45CV,45,Cortical Volume, LeftParsOpercularis,ctx-lh-parsopercularis,35.0,L,V
+ST46CV,46,Cortical Volume, LeftParsOrbitalis,ctx-lh-parsorbitalis,36.0,L,V
+ST47CV,47,Cortical Volume, LeftParsTriangularis,ctx-lh-parstriangularis,37.0,L,V
+ST48CV,48,Cortical Volume, LeftPericalcarine,ctx-lh-pericalcarine,38.0,L,V
+ST49CV,49,Cortical Volume, LeftPostcentral,ctx-lh-postcentral,39.0,L,V
+ST50CV,50,Cortical Volume, LeftPosteriorCingulate,ctx-lh-posteriorcingulate,40.0,L,V
+ST51CV,51,Cortical Volume, LeftPrecentral,ctx-lh-precentral,41.0,L,V
+ST52CV,52,Cortical Volume, LeftPrecuneus,ctx-lh-precuneus,42.0,L,V
+ST54CV,54,Cortical Volume, LeftRostralAnteriorCingulate,ctx-lh-rostralanteriorcingulate,43.0,L,V
+ST55CV,55,Cortical Volume, LeftRostralMiddleFrontal,ctx-lh-rostralmiddlefrontal,44.0,L,V
+ST56CV,56,Cortical Volume, LeftSuperiorFrontal,ctx-lh-superiorfrontal,45.0,L,V
+ST57CV,57,Cortical Volume, LeftSuperiorParietal,ctx-lh-superiorparietal,46.0,L,V
+ST58CV,58,Cortical Volume, LeftSuperiorTemporal,ctx-lh-superiortemporal,47.0,L,V
+ST59CV,59,Cortical Volume, LeftSupramarginal,ctx-lh-supramarginal,48.0,L,V
+ST60CV,60,Cortical Volume, LeftTemporalPole,ctx-lh-temporalpole,50.0,L,V
+ST62CV,62,Cortical Volume, LeftTransverseTemporal,ctx-lh-transversetemporal,51.0,L,V
+ST72CV,72,Cortical Volume, RightBankssts,ctx-rh-bankssts,53.0,R,V
+ST73CV,73,Cortical Volume, RightCaudalAnteriorCingulate,ctx-rh-caudalanteriorcingulate,54.0,R,V
+ST74CV,74,Cortical Volume, RightCaudalMiddleFrontal,ctx-rh-caudalmiddlefrontal,55.0,R,V
+ST82CV,82,Cortical Volume, RightCuneus,ctx-rh-cuneus,56.0,R,V
+ST83CV,83,Cortical Volume, RightEntorhinal,ctx-rh-entorhinal,57.0,R,V
+ST84CV,84,Cortical Volume, RightFrontalPole,ctx-rh-frontalpole,83.0,R,V
+ST85CV,85,Cortical Volume, RightFusiform,ctx-rh-fusiform,58.0,R,V
+ST90CV,90,Cortical Volume, RightInferiorParietal,ctx-rh-inferiorparietal,59.0,R,V
+ST91CV,91,Cortical Volume, RightInferiorTemporal,ctx-rh-inferiortemporal,60.0,R,V
+ST93CV,93,Cortical Volume, RightIsthmusCingulate,ctx-rh-isthmuscingulate,61.0,R,V
+ST94CV,94,Cortical Volume, RightLateralOccipital,ctx-rh-lateraloccipital,62.0,R,V
+ST95CV,95,Cortical Volume, RightLateralOrbitofrontal,ctx-rh-lateralorbitofrontal,63.0,R,V
+ST97CV,97,Cortical Volume, RightLingual,ctx-rh-lingual,64.0,R,V
+ST98CV,98,Cortical Volume, RightMedialOrbitofrontal,ctx-rh-medialorbitofrontal,65.0,R,V
+ST99CV,99,Cortical Volume, RightMiddleTemporal,ctx-rh-middletemporal,66.0,R,V
+ST102CV,102,Cortical Volume, RightParacentral,ctx-rh-paracentral,68.0,R,V
+ST103CV,103,Cortical Volume, RightParahippocampal,ctx-rh-parahippocampal,67.0,R,V
+ST104CV,104,Cortical Volume, RightParsOpercularis,ctx-rh-parsopercularis,69.0,R,V
+ST105CV,105,Cortical Volume, RightParsOrbitalis,ctx-rh-parsorbitalis,70.0,R,V
+ST106CV,106,Cortical Volume, RightParsTriangularis,ctx-rh-parstriangularis,71.0,R,V
+ST107CV,107,Cortical Volume, RightPericalcarine,ctx-rh-pericalcarine,72.0,R,V
+ST108CV,108,Cortical Volume, RightPostcentral,ctx-rh-posteriorcingulate,74.0,R,V
+ST109CV,109,Cortical Volume, RightPosteriorCingulate,ctx-rh-postcentral,73.0,R,V
+ST110CV,110,Cortical Volume, RightPrecentral,ctx-rh-precentral,75.0,R,V
+ST111CV,111,Cortical Volume, RightPrecuneus,ctx-rh-precuneus,76.0,R,V
+ST113CV,113,Cortical Volume, RightRostralAnteriorCingulate,ctx-rh-rostralanteriorcingulate,77.0,R,V
+ST114CV,114,Cortical Volume, RightRostralMiddleFrontal,ctx-rh-rostralmiddlefrontal,78.0,R,V
+ST115CV,115,Cortical Volume, RightSuperiorFrontal,ctx-rh-superiorfrontal,79.0,R,V
+ST116CV,116,Cortical Volume, RightSuperiorParietal,ctx-rh-superiorparietal,80.0,R,V
+ST117CV,117,Cortical Volume, RightSuperiorTemporal,ctx-rh-superiortemporal,81.0,R,V
+ST118CV,118,Cortical Volume, RightSupramarginal,ctx-rh-supramarginal,82.0,R,V
+ST119CV,119,Cortical Volume, RightTemporalPole,ctx-rh-temporalpole,84.0,R,V
+ST121CV,121,Cortical Volume, RightTransverseTemporal,ctx-rh-transversetemporal,85.0,R,V
+ST129CV,129,Cortical Volume, LeftInsula,ctx-lh-insula,52.0,L,V
+ST130CV,130,Cortical Volume, RightInsula,ctx-rh-insula,86.0,R,V
+ST1SV,1,Subcortical Volume, Brainstem,,,,V
+ST2SV,2,Subcortical Volume, CorpusCallosumAnterior,,,CRPCLM,V
+ST3SV,3,Subcortical Volume, CorpusCallosumCentral,,,CRPCLM,V
+ST4SV,4,Subcortical Volume, CorpusCallosumMidAnterior,,,CRPCLM,V
+ST5SV,5,Subcortical Volume, CorpusCallosumMidPosterior,,,CRPCLM,V
+ST6SV,6,Subcortical Volume, CorpusCallosumPosterior,,,CRPCLM,V
+ST7SV,7,Subcortical Volume, Csf,,,CSF,V
+ST9SV,9,Subcortical Volume, FourthVentricle,,,VENT,V
+ST11SV,11,Subcortical Volume, LeftAccumbensArea,Left-Accumbens-area,8.0,L,V
+ST12SV,12,Subcortical Volume, LeftAmygdala,Left-Amygdala,7.0,L,V
+ST16SV,16,Subcortical Volume, LeftCaudate,Left-Caudate,3.0,L,V
+ST17SV,17,Subcortical Volume, LeftCerebellumCortex,,1.0,L,V
+ST18SV,18,Subcortical Volume, LeftCerebellumWM,,,L,V
+ST21SV,21,Subcortical Volume, LeftChoroidPlexus,,,L,V
+ST29SV,29,Subcortical Volume, LeftHippocampus,Left-Hippocampus,6.0,L,V
+ST30SV,30,Subcortical Volume, LeftInferiorLateralVentricle,,,VENT,V
+ST37SV,37,Subcortical Volume, LeftLateralVentricle,,,VENT,V
+ST42SV,42,Subcortical Volume, LeftPallidum,Left-Pallidum,5.0,L,V
+ST53SV,53,Subcortical Volume, LeftPutamen,Left-Putamen,4.0,L,V
+ST61SV,61,Subcortical Volume, LeftThalamus,Left-Thalamus-Proper,2.0,L,V
+ST65SV,65,Subcortical Volume, LeftVentralDC,Left-VentralDC,9.0,L,V
+ST66SV,66,Subcortical Volume, LeftVessel,,,L,V
+ST68SV,68,Subcortical Volume, NonWMHypoIntensities,,,,V
+ST69SV,69,Subcortical Volume, OpticChiasm,,,,V
+ST70SV,70,Subcortical Volume, RightAccumbensArea,Right-Accumbens-area,17.0,R,V
+ST71SV,71,Subcortical Volume, RightAmygdala,Right-Amygdala,16.0,R,V
+ST75SV,75,Subcortical Volume, RightCaudate,Right-Caudate,12.0,R,V
+ST76SV,76,Subcortical Volume, RightCerebellumCortex,,10.0,R,V
+ST77SV,77,Subcortical Volume, RightCerebellumWM,,,R,V
+ST80SV,80,Subcortical Volume, RightChoroidPlexus,,,R,V
+ST88SV,88,Subcortical Volume, RightHippocampus,Right-Hippocampus,15.0,R,V
+ST89SV,89,Subcortical Volume, RightInferiorLateralVentricle,,,VENT,V
+ST96SV,96,Subcortical Volume, RightLateralVentricle,,,VENT,V
+ST101SV,101,Subcortical Volume, RightPallidum,Right-Pallidum,14.0,R,V
+ST112SV,112,Subcortical Volume, RightPutamen,Right-Putamen,13.0,R,V
+ST120SV,120,Subcortical Volume, RightThalamus,Right-Thalamus-Proper,11.0,R,V
+ST124SV,124,Subcortical Volume, RightVentralDC,Right-VentralDC,18.0,R,V
+ST125SV,125,Subcortical Volume, RightVessel,,,R,V
+ST127SV,127,Subcortical Volume, ThirdVentricle,,,VENT,V
+ST128SV,128,Subcortical Volume, WMHypoIntensities,,,,V
+ST13SA,13,Surface Area, LeftBankssts,ctx-lh-bankssts,19.0,L,S
+ST14SA,14,Surface Area, LeftCaudalAnteriorCingulate,ctx-lh-caudalanteriorcingulate,20.0,L,S
+ST15SA,15,Surface Area, LeftCaudalMiddleFrontal,ctx-lh-caudalmiddlefrontal,21.0,L,S
+ST23SA,23,Surface Area, LeftCuneus,ctx-lh-cuneus,22.0,L,S
+ST24SA,24,Surface Area, LeftEntorhinal,ctx-lh-entorhinal,23.0,L,S
+ST25SA,25,Surface Area, LeftFrontalPole,ctx-lh-frontalpole,49.0,L,S
+ST26SA,26,Surface Area, LeftFusiform,ctx-lh-fusiform,24.0,L,S
+ST31SA,31,Surface Area, LeftInferiorParietal,ctx-lh-inferiorparietal,25.0,L,S
+ST32SA,32,Surface Area, LeftInferiorTemporal,ctx-lh-inferiortemporal,26.0,L,S
+ST34SA,34,Surface Area, LeftIsthmusCingulate,ctx-lh-isthmuscingulate,27.0,L,S
+ST35SA,35,Surface Area, LeftLateralOccipital,ctx-lh-lateraloccipital,28.0,L,S
+ST36SA,36,Surface Area, LeftLateralOrbitofrontal,ctx-lh-lateralorbitofrontal,29.0,L,S
+ST38SA,38,Surface Area, LeftLingual,ctx-lh-lingual,30.0,L,S
+ST39SA,39,Surface Area, LeftMedialOrbitofrontal,ctx-lh-medialorbitofrontal,31.0,L,S
+ST40SA,40,Surface Area, LeftMiddleTemporal,ctx-lh-middletemporal,32.0,L,S
+ST43SA,43,Surface Area, LeftParacentral,ctx-lh-paracentral,34.0,L,S
+ST44SA,44,Surface Area, LeftParahippocampal,ctx-lh-parahippocampal,33.0,L,S
+ST45SA,45,Surface Area, LeftParsOpercularis,ctx-lh-parsopercularis,35.0,L,S
+ST46SA,46,Surface Area, LeftParsOrbitalis,ctx-lh-parsorbitalis,36.0,L,S
+ST47SA,47,Surface Area, LeftParsTriangularis,ctx-lh-parstriangularis,37.0,L,S
+ST48SA,48,Surface Area, LeftPericalcarine,ctx-lh-pericalcarine,38.0,L,S
+ST49SA,49,Surface Area, LeftPostcentral,ctx-lh-postcentral,39.0,L,S
+ST50SA,50,Surface Area, LeftPosteriorCingulate,ctx-lh-posteriorcingulate,40.0,L,S
+ST51SA,51,Surface Area, LeftPrecentral,ctx-lh-precentral,41.0,L,S
+ST52SA,52,Surface Area, LeftPrecuneus,ctx-lh-precuneus,42.0,L,S
+ST54SA,54,Surface Area, LeftRostralAnteriorCingulate,ctx-lh-rostralanteriorcingulate,43.0,L,S
+ST55SA,55,Surface Area, LeftRostralMiddleFrontal,ctx-lh-rostralmiddlefrontal,44.0,L,S
+ST56SA,56,Surface Area, LeftSuperiorFrontal,ctx-lh-superiorfrontal,45.0,L,S
+ST57SA,57,Surface Area, LeftSuperiorParietal,ctx-lh-superiorparietal,46.0,L,S
+ST58SA,58,Surface Area, LeftSuperiorTemporal,ctx-lh-superiortemporal,47.0,L,S
+ST59SA,59,Surface Area, LeftSupramarginal,ctx-lh-supramarginal,48.0,L,S
+ST60SA,60,Surface Area, LeftTemporalPole,ctx-lh-temporalpole,50.0,L,S
+ST62SA,62,Surface Area, LeftTransverseTemporal,ctx-lh-transversetemporal,51.0,L,S
+ST72SA,72,Surface Area, RightBankssts,ctx-rh-bankssts,53.0,R,S
+ST73SA,73,Surface Area, RightCaudalAnteriorCingulate,ctx-rh-caudalanteriorcingulate,54.0,R,S
+ST74SA,74,Surface Area, RightCaudalMiddleFrontal,ctx-rh-caudalmiddlefrontal,55.0,R,S
+ST82SA,82,Surface Area, RightCuneus,ctx-rh-cuneus,56.0,R,S
+ST83SA,83,Surface Area, RightEntorhinal,ctx-rh-entorhinal,57.0,R,S
+ST84SA,84,Surface Area, RightFrontalPole,ctx-rh-frontalpole,83.0,R,S
+ST85SA,85,Surface Area, RightFusiform,ctx-rh-fusiform,58.0,R,S
+ST90SA,90,Surface Area, RightInferiorParietal,ctx-rh-inferiorparietal,59.0,R,S
+ST91SA,91,Surface Area, RightInferiorTemporal,ctx-rh-inferiortemporal,60.0,R,S
+ST93SA,93,Surface Area, RightIsthmusCingulate,ctx-rh-isthmuscingulate,61.0,R,S
+ST94SA,94,Surface Area, RightLateralOccipital,ctx-rh-lateraloccipital,62.0,R,S
+ST95SA,95,Surface Area, RightLateralOrbitofrontal,ctx-rh-lateralorbitofrontal,63.0,R,S
+ST97SA,97,Surface Area, RightLingual,ctx-rh-lingual,64.0,R,S
+ST98SA,98,Surface Area, RightMedialOrbitofrontal,ctx-rh-medialorbitofrontal,65.0,R,S
+ST99SA,99,Surface Area, RightMiddleTemporal,ctx-rh-middletemporal,66.0,R,S
+ST102SA,102,Surface Area, RightParacentral,ctx-rh-paracentral,68.0,R,S
+ST103SA,103,Surface Area, RightParahippocampal,ctx-rh-parahippocampal,67.0,R,S
+ST104SA,104,Surface Area, RightParsOpercularis,ctx-rh-parsopercularis,69.0,R,S
+ST105SA,105,Surface Area, RightParsOrbitalis,ctx-rh-parsorbitalis,70.0,R,S
+ST106SA,106,Surface Area, RightParsTriangularis,ctx-rh-parstriangularis,71.0,R,S
+ST107SA,107,Surface Area, RightPericalcarine,ctx-rh-pericalcarine,72.0,R,S
+ST108SA,108,Surface Area, RightPostcentral,ctx-rh-posteriorcingulate,74.0,R,S
+ST109SA,109,Surface Area, RightPosteriorCingulate,ctx-rh-postcentral,73.0,R,S
+ST110SA,110,Surface Area, RightPrecentral,ctx-rh-precentral,75.0,R,S
+ST111SA,111,Surface Area, RightPrecuneus,ctx-rh-precuneus,76.0,R,S
+ST113SA,113,Surface Area, RightRostralAnteriorCingulate,ctx-rh-rostralanteriorcingulate,77.0,R,S
+ST114SA,114,Surface Area, RightRostralMiddleFrontal,ctx-rh-rostralmiddlefrontal,78.0,R,S
+ST115SA,115,Surface Area, RightSuperiorFrontal,ctx-rh-superiorfrontal,79.0,R,S
+ST116SA,116,Surface Area, RightSuperiorParietal,ctx-rh-superiorparietal,80.0,R,S
+ST117SA,117,Surface Area, RightSuperiorTemporal,ctx-rh-superiortemporal,81.0,R,S
+ST118SA,118,Surface Area, RightSupramarginal,ctx-rh-supramarginal,82.0,R,S
+ST119SA,119,Surface Area, RightTemporalPole,ctx-rh-temporalpole,84.0,R,S
+ST121SA,121,Surface Area, RightTransverseTemporal,ctx-rh-transversetemporal,85.0,R,S
+ST129SA,129,Surface Area, LeftInsula,ctx-lh-insula,52.0,L,S
+ST130SA,130,Surface Area, RightInsula,ctx-rh-insula,86.0,R,S
+ST13TA,13,Thickness Average, LeftBankssts,ctx-lh-bankssts,19.0,L,T
+ST14TA,14,Thickness Average, LeftCaudalAnteriorCingulate,ctx-lh-caudalanteriorcingulate,20.0,L,T
+ST15TA,15,Thickness Average, LeftCaudalMiddleFrontal,ctx-lh-caudalmiddlefrontal,21.0,L,T
+ST23TA,23,Thickness Average, LeftCuneus,ctx-lh-cuneus,22.0,L,T
+ST24TA,24,Thickness Average, LeftEntorhinal,ctx-lh-entorhinal,23.0,L,T
+ST25TA,25,Thickness Average, LeftFrontalPole,ctx-lh-frontalpole,49.0,L,T
+ST26TA,26,Thickness Average, LeftFusiform,ctx-lh-fusiform,24.0,L,T
+ST31TA,31,Thickness Average, LeftInferiorParietal,ctx-lh-inferiorparietal,25.0,L,T
+ST32TA,32,Thickness Average, LeftInferiorTemporal,ctx-lh-inferiortemporal,26.0,L,T
+ST34TA,34,Thickness Average, LeftIsthmusCingulate,ctx-lh-isthmuscingulate,27.0,L,T
+ST35TA,35,Thickness Average, LeftLateralOccipital,ctx-lh-lateraloccipital,28.0,L,T
+ST36TA,36,Thickness Average, LeftLateralOrbitofrontal,ctx-lh-lateralorbitofrontal,29.0,L,T
+ST38TA,38,Thickness Average, LeftLingual,ctx-lh-lingual,30.0,L,T
+ST39TA,39,Thickness Average, LeftMedialOrbitofrontal,ctx-lh-medialorbitofrontal,31.0,L,T
+ST40TA,40,Thickness Average, LeftMiddleTemporal,ctx-lh-middletemporal,32.0,L,T
+ST43TA,43,Thickness Average, LeftParacentral,ctx-lh-paracentral,34.0,L,T
+ST44TA,44,Thickness Average, LeftParahippocampal,ctx-lh-parahippocampal,33.0,L,T
+ST45TA,45,Thickness Average, LeftParsOpercularis,ctx-lh-parsopercularis,35.0,L,T
+ST46TA,46,Thickness Average, LeftParsOrbitalis,ctx-lh-parsorbitalis,36.0,L,T
+ST47TA,47,Thickness Average, LeftParsTriangularis,ctx-lh-parstriangularis,37.0,L,T
+ST48TA,48,Thickness Average, LeftPericalcarine,ctx-lh-pericalcarine,38.0,L,T
+ST49TA,49,Thickness Average, LeftPostcentral,ctx-lh-postcentral,39.0,L,T
+ST50TA,50,Thickness Average, LeftPosteriorCingulate,ctx-lh-posteriorcingulate,40.0,L,T
+ST51TA,51,Thickness Average, LeftPrecentral,ctx-lh-precentral,41.0,L,T
+ST52TA,52,Thickness Average, LeftPrecuneus,ctx-lh-precuneus,42.0,L,T
+ST54TA,54,Thickness Average, LeftRostralAnteriorCingulate,ctx-lh-rostralanteriorcingulate,43.0,L,T
+ST55TA,55,Thickness Average, LeftRostralMiddleFrontal,ctx-lh-rostralmiddlefrontal,44.0,L,T
+ST56TA,56,Thickness Average, LeftSuperiorFrontal,ctx-lh-superiorfrontal,45.0,L,T
+ST57TA,57,Thickness Average, LeftSuperiorParietal,ctx-lh-superiorparietal,46.0,L,T
+ST58TA,58,Thickness Average, LeftSuperiorTemporal,ctx-lh-superiortemporal,47.0,L,T
+ST59TA,59,Thickness Average, LeftSupramarginal,ctx-lh-supramarginal,48.0,L,T
+ST60TA,60,Thickness Average, LeftTemporalPole,ctx-lh-temporalpole,50.0,L,T
+ST62TA,62,Thickness Average, LeftTransverseTemporal,ctx-lh-transversetemporal,51.0,L,T
+ST72TA,72,Thickness Average, RightBankssts,ctx-rh-bankssts,53.0,R,T
+ST73TA,73,Thickness Average, RightCaudalAnteriorCingulate,ctx-rh-caudalanteriorcingulate,54.0,R,T
+ST74TA,74,Thickness Average, RightCaudalMiddleFrontal,ctx-rh-caudalmiddlefrontal,55.0,R,T
+ST82TA,82,Thickness Average, RightCuneus,ctx-rh-cuneus,56.0,R,T
+ST83TA,83,Thickness Average, RightEntorhinal,ctx-rh-entorhinal,57.0,R,T
+ST84TA,84,Thickness Average, RightFrontalPole,ctx-rh-frontalpole,83.0,R,T
+ST85TA,85,Thickness Average, RightFusiform,ctx-rh-fusiform,58.0,R,T
+ST90TA,90,Thickness Average, RightInferiorParietal,ctx-rh-inferiorparietal,59.0,R,T
+ST91TA,91,Thickness Average, RightInferiorTemporal,ctx-rh-inferiortemporal,60.0,R,T
+ST93TA,93,Thickness Average, RightIsthmusCingulate,ctx-rh-isthmuscingulate,61.0,R,T
+ST94TA,94,Thickness Average, RightLateralOccipital,ctx-rh-lateraloccipital,62.0,R,T
+ST95TA,95,Thickness Average, RightLateralOrbitofrontal,ctx-rh-lateralorbitofrontal,63.0,R,T
+ST97TA,97,Thickness Average, RightLingual,ctx-rh-lingual,64.0,R,T
+ST98TA,98,Thickness Average, RightMedialOrbitofrontal,ctx-rh-medialorbitofrontal,65.0,R,T
+ST99TA,99,Thickness Average, RightMiddleTemporal,ctx-rh-middletemporal,66.0,R,T
+ST102TA,102,Thickness Average, RightParacentral,ctx-rh-paracentral,68.0,R,T
+ST103TA,103,Thickness Average, RightParahippocampal,ctx-rh-parahippocampal,67.0,R,T
+ST104TA,104,Thickness Average, RightParsOpercularis,ctx-rh-parsopercularis,69.0,R,T
+ST105TA,105,Thickness Average, RightParsOrbitalis,ctx-rh-parsorbitalis,70.0,R,T
+ST106TA,106,Thickness Average, RightParsTriangularis,ctx-rh-parstriangularis,71.0,R,T
+ST107TA,107,Thickness Average, RightPericalcarine,ctx-rh-pericalcarine,72.0,R,T
+ST108TA,108,Thickness Average, RightPostcentral,ctx-rh-posteriorcingulate,74.0,R,T
+ST109TA,109,Thickness Average, RightPosteriorCingulate,ctx-rh-postcentral,73.0,R,T
+ST110TA,110,Thickness Average, RightPrecentral,ctx-rh-precentral,75.0,R,T
+ST111TA,111,Thickness Average, RightPrecuneus,ctx-rh-precuneus,76.0,R,T
+ST113TA,113,Thickness Average, RightRostralAnteriorCingulate,ctx-rh-rostralanteriorcingulate,77.0,R,T
+ST114TA,114,Thickness Average, RightRostralMiddleFrontal,ctx-rh-rostralmiddlefrontal,78.0,R,T
+ST115TA,115,Thickness Average, RightSuperiorFrontal,ctx-rh-superiorfrontal,79.0,R,T
+ST116TA,116,Thickness Average, RightSuperiorParietal,ctx-rh-superiorparietal,80.0,R,T
+ST117TA,117,Thickness Average, RightSuperiorTemporal,ctx-rh-superiortemporal,81.0,R,T
+ST118TA,118,Thickness Average, RightSupramarginal,ctx-rh-supramarginal,82.0,R,T
+ST119TA,119,Thickness Average, RightTemporalPole,ctx-rh-temporalpole,84.0,R,T
+ST121TA,121,Thickness Average, RightTransverseTemporal,ctx-rh-transversetemporal,85.0,R,T
+ST129TA,129,Thickness Average, LeftInsula,ctx-lh-insula,52.0,L,T
+ST130TA,130,Thickness Average, RightInsula,ctx-rh-insula,86.0,R,T
+ST13TS,13,Thickness Stardard Deviation, LeftBankssts,ctx-lh-bankssts,19.0,L,T
+ST14TS,14,Thickness Stardard Deviation, LeftCaudalAnteriorCingulate,ctx-lh-caudalanteriorcingulate,20.0,L,T
+ST15TS,15,Thickness Stardard Deviation, LeftCaudalMiddleFrontal,ctx-lh-caudalmiddlefrontal,21.0,L,T
+ST23TS,23,Thickness Stardard Deviation, LeftCuneus,ctx-lh-cuneus,22.0,L,T
+ST24TS,24,Thickness Stardard Deviation, LeftEntorhinal,ctx-lh-entorhinal,23.0,L,T
+ST25TS,25,Thickness Stardard Deviation, LeftFrontalPole,ctx-lh-frontalpole,49.0,L,T
+ST26TS,26,Thickness Stardard Deviation, LeftFusiform,ctx-lh-fusiform,24.0,L,T
+ST31TS,31,Thickness Stardard Deviation, LeftInferiorParietal,ctx-lh-inferiorparietal,25.0,L,T
+ST32TS,32,Thickness Stardard Deviation, LeftInferiorTemporal,ctx-lh-inferiortemporal,26.0,L,T
+ST34TS,34,Thickness Stardard Deviation, LeftIsthmusCingulate,ctx-lh-isthmuscingulate,27.0,L,T
+ST35TS,35,Thickness Stardard Deviation, LeftLateralOccipital,ctx-lh-lateraloccipital,28.0,L,T
+ST36TS,36,Thickness Stardard Deviation, LeftLateralOrbitofrontal,ctx-lh-lateralorbitofrontal,29.0,L,T
+ST38TS,38,Thickness Stardard Deviation, LeftLingual,ctx-lh-lingual,30.0,L,T
+ST39TS,39,Thickness Stardard Deviation, LeftMedialOrbitofrontal,ctx-lh-medialorbitofrontal,31.0,L,T
+ST40TS,40,Thickness Stardard Deviation, LeftMiddleTemporal,ctx-lh-middletemporal,32.0,L,T
+ST43TS,43,Thickness Stardard Deviation, LeftParacentral,ctx-lh-paracentral,34.0,L,T
+ST44TS,44,Thickness Stardard Deviation, LeftParahippocampal,ctx-lh-parahippocampal,33.0,L,T
+ST45TS,45,Thickness Stardard Deviation, LeftParsOpercularis,ctx-lh-parsopercularis,35.0,L,T
+ST46TS,46,Thickness Stardard Deviation, LeftParsOrbitalis,ctx-lh-parsorbitalis,36.0,L,T
+ST47TS,47,Thickness Stardard Deviation, LeftParsTriangularis,ctx-lh-parstriangularis,37.0,L,T
+ST48TS,48,Thickness Stardard Deviation, LeftPericalcarine,ctx-lh-pericalcarine,38.0,L,T
+ST49TS,49,Thickness Stardard Deviation, LeftPostcentral,ctx-lh-postcentral,39.0,L,T
+ST50TS,50,Thickness Stardard Deviation, LeftPosteriorCingulate,ctx-lh-posteriorcingulate,40.0,L,T
+ST51TS,51,Thickness Stardard Deviation, LeftPrecentral,ctx-lh-precentral,41.0,L,T
+ST52TS,52,Thickness Stardard Deviation, LeftPrecuneus,ctx-lh-precuneus,42.0,L,T
+ST54TS,54,Thickness Stardard Deviation, LeftRostralAnteriorCingulate,ctx-lh-rostralanteriorcingulate,43.0,L,T
+ST55TS,55,Thickness Stardard Deviation, LeftRostralMiddleFrontal,ctx-lh-rostralmiddlefrontal,44.0,L,T
+ST56TS,56,Thickness Stardard Deviation, LeftSuperiorFrontal,ctx-lh-superiorfrontal,45.0,L,T
+ST57TS,57,Thickness Stardard Deviation, LeftSuperiorParietal,ctx-lh-superiorparietal,46.0,L,T
+ST58TS,58,Thickness Stardard Deviation, LeftSuperiorTemporal,ctx-lh-superiortemporal,47.0,L,T
+ST59TS,59,Thickness Stardard Deviation, LeftSupramarginal,ctx-lh-supramarginal,48.0,L,T
+ST60TS,60,Thickness Stardard Deviation, LeftTemporalPole,ctx-lh-temporalpole,50.0,L,T
+ST62TS,62,Thickness Stardard Deviation, LeftTransverseTemporal,ctx-lh-transversetemporal,51.0,L,T
+ST72TS,72,Thickness Stardard Deviation, RightBankssts,ctx-rh-bankssts,53.0,R,T
+ST73TS,73,Thickness Stardard Deviation, RightCaudalAnteriorCingulate,ctx-rh-caudalanteriorcingulate,54.0,R,T
+ST74TS,74,Thickness Stardard Deviation, RightCaudalMiddleFrontal,ctx-rh-caudalmiddlefrontal,55.0,R,T
+ST82TS,82,Thickness Stardard Deviation, RightCuneus,ctx-rh-cuneus,56.0,R,T
+ST83TS,83,Thickness Stardard Deviation, RightEntorhinal,ctx-rh-entorhinal,57.0,R,T
+ST84TS,84,Thickness Stardard Deviation, RightFrontalPole,ctx-rh-frontalpole,83.0,R,T
+ST85TS,85,Thickness Stardard Deviation, RightFusiform,ctx-rh-fusiform,58.0,R,T
+ST90TS,90,Thickness Stardard Deviation, RightInferiorParietal,ctx-rh-inferiorparietal,59.0,R,T
+ST91TS,91,Thickness Stardard Deviation, RightInferiorTemporal,ctx-rh-inferiortemporal,60.0,R,T
+ST93TS,93,Thickness Stardard Deviation, RightIsthmusCingulate,ctx-rh-isthmuscingulate,61.0,R,T
+ST94TS,94,Thickness Stardard Deviation, RightLateralOccipital,ctx-rh-lateraloccipital,62.0,R,T
+ST95TS,95,Thickness Stardard Deviation, RightLateralOrbitofrontal,ctx-rh-lateralorbitofrontal,63.0,R,T
+ST97TS,97,Thickness Stardard Deviation, RightLingual,ctx-rh-lingual,64.0,R,T
+ST98TS,98,Thickness Stardard Deviation, RightMedialOrbitofrontal,ctx-rh-medialorbitofrontal,65.0,R,T
+ST99TS,99,Thickness Stardard Deviation, RightMiddleTemporal,ctx-rh-middletemporal,66.0,R,T
+ST102TS,102,Thickness Stardard Deviation, RightParacentral,ctx-rh-paracentral,68.0,R,T
+ST103TS,103,Thickness Stardard Deviation, RightParahippocampal,ctx-rh-parahippocampal,67.0,R,T
+ST104TS,104,Thickness Stardard Deviation, RightParsOpercularis,ctx-rh-parsopercularis,69.0,R,T
+ST105TS,105,Thickness Stardard Deviation, RightParsOrbitalis,ctx-rh-parsorbitalis,70.0,R,T
+ST106TS,106,Thickness Stardard Deviation, RightParsTriangularis,ctx-rh-parstriangularis,71.0,R,T
+ST107TS,107,Thickness Stardard Deviation, RightPericalcarine,ctx-rh-pericalcarine,72.0,R,T
+ST108TS,108,Thickness Stardard Deviation, RightPostcentral,ctx-rh-posteriorcingulate,74.0,R,T
+ST109TS,109,Thickness Stardard Deviation, RightPosteriorCingulate,ctx-rh-postcentral,73.0,R,T
+ST110TS,110,Thickness Stardard Deviation, RightPrecentral,ctx-rh-precentral,75.0,R,T
+ST111TS,111,Thickness Stardard Deviation, RightPrecuneus,ctx-rh-precuneus,76.0,R,T
+ST113TS,113,Thickness Stardard Deviation, RightRostralAnteriorCingulate,ctx-rh-rostralanteriorcingulate,77.0,R,T
+ST114TS,114,Thickness Stardard Deviation, RightRostralMiddleFrontal,ctx-rh-rostralmiddlefrontal,78.0,R,T
+ST115TS,115,Thickness Stardard Deviation, RightSuperiorFrontal,ctx-rh-superiorfrontal,79.0,R,T
+ST116TS,116,Thickness Stardard Deviation, RightSuperiorParietal,ctx-rh-superiorparietal,80.0,R,T
+ST117TS,117,Thickness Stardard Deviation, RightSuperiorTemporal,ctx-rh-superiortemporal,81.0,R,T
+ST118TS,118,Thickness Stardard Deviation, RightSupramarginal,ctx-rh-supramarginal,82.0,R,T
+ST119TS,119,Thickness Stardard Deviation, RightTemporalPole,ctx-rh-temporalpole,84.0,R,T
+ST121TS,121,Thickness Stardard Deviation, RightTransverseTemporal,ctx-rh-transversetemporal,85.0,R,T
+ST129TS,129,Thickness Stardard Deviation, LeftInsula,ctx-lh-insula,52.0,L,T
+ST130TS,130,Thickness Stardard Deviation, RightInsula,ctx-rh-insula,86.0,R,T
