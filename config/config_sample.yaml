@@ -1,0 +1,47 @@
+# Default configuration for data loading
+
+# Dataset parameters
+datasets: ['dian', 'adni']
+modality: 'mri'
+selection: ['V']
+uptake_normalization: null
+subject_norm: 'ref'
+exclude_nan: true
+only_id: true
+exclude_ids: [1, 10]
+
+# Data loading parameters
+batch_size: 128
+random_seed: 0
+train_val_split: [0.7, 0.15, 0.15]
+
+# Model parameters
+ddata: 1
+interm_dim: 256
+
+# Encoder parameters
+div_loss: 'MMD'
+kws_enc_loss:
+  kernel_choice: 'imq'
+  reduction: 'mean'
+  α: .5
+  λ: .03
+  kernel_bandwidth: 1
+  scales: [1, 10, 100]
+
+# Decoder parameters
+recon_function: 'mse'
+kws_dec_loss:
+  reduction: 'mean'
+out_norm: false
+
+# Training parameters
+lr: 2e-3
+n_epochs: 100000
+max_iters: 2000
+early_stopping: true
+
+# Output parameters
+savefigs: true
+model_name: "mmd_all_datasets"
+device: 'cuda'
