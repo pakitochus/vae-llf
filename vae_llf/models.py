@@ -1,4 +1,22 @@
-"""Implementation of the models for the Variational Autoencoder for Latent Feature Analysis"""
+"""
+Implementation of the models for the Variational Autoencoder for Latent Feature Analysis.
+
+This module contains the implementation of various encoder and decoder architectures 
+for a Variational Autoencoder (VAE), including the generic VAE encoder and decoder, 
+as well as specific implementations like DenseEncoder, DenseDecoder, MMDEncoder, 
+and their respective loss functions.
+
+Classes:
+--------
+- VAEEncoder: Base class for VAE encoders.
+- MMDEncoder: Extension of VAEEncoder that computes Maximum Mean Discrepancy (MMD).
+- VAEDecoder: Base class for VAE decoders.
+- DenseEncoder: A 2-layer perceptron encoder for tabular data.
+- DenseDecoder: A 2-layer perceptron decoder for tabular data.
+- DenseMMDEncoder: A 2-layer perceptron MMD encoder for tabular data.
+- GenVAE: Generic implementation of a VAE that combines an encoder and a decoder.
+
+"""
 
 import torch
 import torch.nn as nn
@@ -7,18 +25,19 @@ from torch.nn import functional as F
 from typing import Callable
 
 class VAEEncoder(nn.Module):
-    """Empty class for generic VAE Encoder. 
+    """Base class for generic VAE Encoder. 
     
     Args:
         latent_dim (int, optional): Dimension of the latent space. Defaults to 20.
+        kws_loss (dict, optional): Keyword arguments for loss computation. Defaults to {'reduction':'sum', 'β': 1.0}.
 
     Methods
     -------
     reparameterize(mu, logvar):
-        Performs the reparameterization trick
+        Performs the reparameterization trick.
 
-    divergence_loss(mu, logvar, reduction='sum'):
-        Computes the Kullback-Leibler divergence between the latent distribution (mu,logvar) and N(0,1)
+    divergence_loss(z_params:dict=None, z_sampled:Tensor=None) -> Tensor:
+        Computes the Kullback-Leibler divergence between the latent distribution (mu, logvar) and N(0,1).
     """
 
     def __init__(self, latent_dim:int=20, kws_loss:dict={'reduction':'sum', 'β': 1.0}) -> None:
@@ -31,6 +50,14 @@ class VAEEncoder(nn.Module):
         return x
     
     def predict_fn(self, X):
+        """Predicts the latent variables for the input data.
+
+        Args:
+            X (numpy.ndarray): Input data to predict latent variables.
+
+        Returns:
+            numpy.ndarray: Predicted latent variables.
+        """
         self.eval()
         device = self.dummy_param.device
         with torch.no_grad():
@@ -40,14 +67,14 @@ class VAEEncoder(nn.Module):
         return zvar
 
     def reparameterize(self, mu:Tensor, logvar:Tensor) -> Tensor:
-        """Performs the reparameterization trick
+        """Performs the reparameterization trick.
 
         Args:
-            mu (Tensor): tensor of means
-            logvar (Tensor): tensor of log(variance) 
+            mu (Tensor): Tensor of means.
+            logvar (Tensor): Tensor of log(variance). 
 
         Returns:
-            Tensor: sampled tensor at the Z layer
+            Tensor: Sampled tensor at the Z layer.
         """
         std = torch.exp(0.5 * logvar)
         eps = torch.randn_like(std)
@@ -55,45 +82,78 @@ class VAEEncoder(nn.Module):
         return z
     
     def _kl_divergence(self, mu:Tensor, logvar:Tensor) -> Tensor:
-        return -0.5 * torch.sum(1 + logvar - mu.pow(2) - logvar.exp(), dim=-1) # correct log(std) = log(var)/2
+        """Computes the Kullback-Leibler divergence.
+
+        Args:
+            mu (Tensor): Tensor of means.
+            logvar (Tensor): Tensor of log(variance).
+
+        Returns:
+            Tensor: KL divergence value.
+        """
+        return -0.5 * torch.sum(1 + logvar - mu.pow(2) - logvar.exp(), dim=-1)
 
     
     def divergence_loss(self, z_params:dict=None, z_sampled:Tensor=None) -> Tensor:
-        """Computes the Kullback-Leibler divergence between the latent distribution (mu,logvar) and N(0,1)
+        """Computes the Kullback-Leibler divergence between the latent distribution (mu, logvar) and N(0,1).
 
         Args:
-            mu (Tensor): tensor of means
-            logvar (Tensor): tensor of log(variance) 
-            z_sampled: unused. 
+            z_params (dict): Dictionary containing 'mu' and 'logvar'.
+            z_sampled (Tensor, optional): Unused.
 
         Returns:
-            Tensor: KL divergence
+            Tensor: KL divergence.
         """
         β = self.kws_loss['β']
         kl_batch = self._kl_divergence(z_params['mu'], z_params['logvar'])
         if self.kws_loss['reduction']=='sum':
-            return β*kl_batch.sum()
+            return β * kl_batch.sum()
         else:
-            return β*kl_batch.mean()
+            return β * kl_batch.mean()
 
 class MMDEncoder(VAEEncoder):
+    """Extension of VAEEncoder that computes Maximum Mean Discrepancy (MMD).
+
+    Methods
+    -------
+    rbf_kernel(z1, z2):
+        Computes the RBF kernel between two sets of latent variables.
+
+    imq_kernel(z1, z2):
+        Computes the Inverse Multiquadric kernel between two sets of latent variables.
+
+    compute_mmd(z:Tensor, z_prior:Tensor) -> Tensor:
+        Computes the Maximum Mean Discrepancy between two distributions.
+
+    divergence_loss(z_params:dict=None, z_sampled:Tensor=None) -> Tensor:
+        Computes the divergence loss using MMD.
+    """
 
     def rbf_kernel(self, z1, z2):
-        """Returns a matrix of shape [batch x batch] containing the pairwise kernel computation"""
+        """Returns a matrix of shape [batch x batch] containing the pairwise RBF kernel computation.
 
-        C = 2.0 * self.latent_dim*self.kws_loss['kernel_bandwidth']**2
+        Args:
+            z1 (Tensor): First set of latent variables.
+            z2 (Tensor): Second set of latent variables.
 
+        Returns:
+            Tensor: RBF kernel matrix.
+        """
+        C = 2.0 * self.latent_dim * self.kws_loss['kernel_bandwidth']**2
         k = torch.exp(-torch.norm(z1.unsqueeze(1) - z2.unsqueeze(0), dim=-1) ** 2 / C)
-
         return k
     
     def imq_kernel(self, z1, z2):
-        """Returns a matrix of shape [batch x batch] containing the pairwise kernel computation"""
+        """Returns a matrix of shape [batch x batch] containing the pairwise Inverse Multiquadric kernel computation.
 
-        Cbase = (
-            2.0 * self.latent_dim*self.kws_loss['kernel_bandwidth']**2
-        )
+        Args:
+            z1 (Tensor): First set of latent variables.
+            z2 (Tensor): Second set of latent variables.
 
+        Returns:
+            Tensor: Inverse Multiquadric kernel matrix.
+        """
+        Cbase = 2.0 * self.latent_dim * self.kws_loss['kernel_bandwidth']**2
         k = 0
 
         for scale in self.kws_loss['scales']:
@@ -103,21 +163,20 @@ class MMDEncoder(VAEEncoder):
         return k
     
     def compute_mmd(self, z:Tensor, z_prior:Tensor) -> Tensor:
-        """Calcula el MMD between x and y. 
+        """Calculates the Maximum Mean Discrepancy (MMD) between two distributions.
 
         Args:
-            x (Tensor): _description_
-            y (Tensor): _description_
+            z (Tensor): Sampled latent variables.
+            z_prior (Tensor): Prior latent variables.
 
         Returns:
-            Tensor: _description_
+            Tensor: MMD loss value.
         """
         N = z.shape[0]
         if self.kws_loss['kernel_choice'] == "rbf":
             k_z = self.rbf_kernel(z, z)
             k_z_prior = self.rbf_kernel(z_prior, z_prior)
             k_cross = self.rbf_kernel(z, z_prior)
-
         else:
             k_z = self.imq_kernel(z, z)
             k_z_prior = self.imq_kernel(z_prior, z_prior)
@@ -131,14 +190,14 @@ class MMDEncoder(VAEEncoder):
         return mmd_loss
 
     def divergence_loss(self, z_params:dict=None, z_sampled:Tensor=None) -> Tensor:
-        """Computes the Maximum Mean Discrepancy (arXiv:0805.2368) between the sampled latent distribution (mu=z, logvar=None) and N(0,1)
+        """Computes the divergence loss using Maximum Mean Discrepancy (MMD).
 
         Args:
-            mu (Tensor): tensor of means
-            logvar (Tensor): tensor of log(variance) 
+            z_params (dict): Dictionary containing 'mu' and 'logvar'.
+            z_sampled (Tensor): Sampled latent variables.
 
         Returns:
-            Tensor: KL divergence
+            Tensor: Divergence loss value.
         """
         z_prior = torch.randn_like(z_sampled, device=z_sampled.device)
         kl_batch = self._kl_divergence(z_params['mu'], z_params['logvar'])
@@ -147,22 +206,23 @@ class MMDEncoder(VAEEncoder):
         λ = self.kws_loss['λ']
 
         if self.kws_loss['reduction']=='sum':
-            return (1-α)*kl_batch.sum(dim=0) + (α+λ-1)*mdd_batch 
+            return (1-α) * kl_batch.sum(dim=0) + (α + λ - 1) * mdd_batch 
         else:
-            return (1-α)*kl_batch.mean(dim=0) + (α+λ-1)*mdd_batch 
+            return (1-α) * kl_batch.mean(dim=0) + (α + λ - 1) * mdd_batch 
         
 
-
 class VAEDecoder(nn.Module):
-    """Empty class for generic VAE Decoder. 
+    """Base class for generic VAE Decoder. 
     
     Args:
         latent_dim (int, optional): Dimension of the latent space. Defaults to 20.
-    
+        recon_function (callable, optional): Function to compute reconstruction loss. Defaults to F.mse_loss.
+        kws_loss (dict, optional): Keyword arguments for loss computation. Defaults to {'reduction':'sum'}.
+
     Methods
     -------
-    recon_loss(predictions, targets, reduction='sum'):
-        Computes the VAE reconstruction loss assuming gaussian distribution of the data.
+    recon_loss(targets, predictions, mask=None) -> Tensor:
+        Computes the VAE reconstruction loss assuming Gaussian distribution of the data.
     """
 
     def __init__(self, latent_dim:int=20, recon_function:callable=F.mse_loss, kws_loss:dict={'reduction':'sum'}) -> None: 
@@ -175,15 +235,15 @@ class VAEDecoder(nn.Module):
         return x
     
     def recon_loss(self, targets:Tensor, predictions:Tensor, mask:Tensor=None) -> Tensor:
-        """Computes the VAE reconstruction loss assuming gaussian distribution of the data.
+        """Computes the VAE reconstruction loss assuming Gaussian distribution of the data.
 
         Args:
-            targets (Tensor): Target (original) values of the input data
-            predictions (Tensor): Predicted values for the input sample
-            reduction (str, optional): Aggregation function for the reconstruction loss. Defaults to 'sum'.
+            targets (Tensor): Target (original) values of the input data.
+            predictions (Tensor): Predicted values for the input sample.
+            mask (Tensor, optional): Mask to apply to the targets and predictions. Defaults to None.
 
         Returns:
-            Tensor: Reconstruction loss
+            Tensor: Reconstruction loss.
         """
         # From arXiv calibrated decoder: arXiv:2006.13202v3
         # D is the dimensionality of x. 
@@ -201,11 +261,11 @@ class VAEDecoder(nn.Module):
 
     
 class DenseEncoder(VAEEncoder):
-    """Implementation of 2-layer perceptron that works as an encoder for tabular data. 
+    """Implementation of a 2-layer perceptron that works as an encoder for tabular data. 
 
     Args:
-        input_dim (int): Dimension of the input tabular data
-        intermediate_dim (int): Number of neurons in the hidden layer
+        input_dim (int): Dimension of the input tabular data.
+        intermediate_dim (int): Number of neurons in the hidden layer.
         latent_dim (int, optional): Dimension of the latent space. Defaults to 20.
     """
     def __init__(self, input_dim:int, intermediate_dim:int, *args, **kwargs) -> None:
@@ -215,6 +275,14 @@ class DenseEncoder(VAEEncoder):
         self.fc2_logvar = nn.Linear(intermediate_dim, self.latent_dim)
 
     def forward(self, x:Tensor) -> tuple[Tensor, Tensor, Tensor]:
+        """Forward pass through the encoder.
+
+        Args:
+            x (Tensor): Input data.
+
+        Returns:
+            tuple[Tensor, Tensor, Tensor]: Sampled latent variable, mean, and log variance.
+        """
         x = F.elu(self.fc1(x))
         z_mean = self.fc2_mean(x)
         z_logvar = self.fc2_logvar(x)
@@ -222,11 +290,11 @@ class DenseEncoder(VAEEncoder):
         return z, z_mean, z_logvar
     
 class DenseMMDEncoder(MMDEncoder):
-    """Implementation of 2-layer perceptron MMD that works as an encoder for tabular data. 
+    """Implementation of a 2-layer perceptron MMD that works as an encoder for tabular data. 
 
     Args:
-        input_dim (int): Dimension of the input tabular data
-        intermediate_dim (int): Number of neurons in the hidden layer
+        input_dim (int): Dimension of the input tabular data.
+        intermediate_dim (int): Number of neurons in the hidden layer.
         latent_dim (int, optional): Dimension of the latent space. Defaults to 20.
     """
     def __init__(self, input_dim:int, intermediate_dim:int, *args, **kwargs) -> None:
@@ -236,6 +304,14 @@ class DenseMMDEncoder(MMDEncoder):
         self.fc2_logvar = nn.Linear(intermediate_dim, self.latent_dim)
 
     def forward(self, x:Tensor) -> tuple[Tensor, Tensor, Tensor]:
+        """Forward pass through the MMD encoder.
+
+        Args:
+            x (Tensor): Input data.
+
+        Returns:
+            tuple[Tensor, Tensor, Tensor]: Sampled latent variable, mean, and log variance.
+        """
         x = F.elu(self.fc1(x))
         z_mean = self.fc2_mean(x)
         z_logvar = self.fc2_logvar(x)
@@ -243,12 +319,13 @@ class DenseMMDEncoder(MMDEncoder):
         return z, z_mean, z_logvar
 
 class DenseDecoder(VAEDecoder): 
-    """Implementation of 2-layer perceptron that works as an decoder for tabular data. 
+    """Implementation of a 2-layer perceptron that works as a decoder for tabular data. 
 
     Args:
-        input_dim (int): Dimension of the input tabular data
-        intermediate_dim (int): Number of neurons in the hidden layer
+        intermediate_dim (int): Number of neurons in the hidden layer.
+        output_dim (int): Dimension of the output data.
         latent_dim (int, optional): Dimension of the latent space. Defaults to 20.
+        normalize_output (bool, optional): Whether to normalize the output. Defaults to True.
     """
     def __init__(self, intermediate_dim:int, output_dim:int, *args, normalize_output:bool=True, **kwargs) -> None:
         super().__init__(*args, **kwargs)
@@ -257,6 +334,14 @@ class DenseDecoder(VAEDecoder):
         self.fc2 = nn.Linear(intermediate_dim, output_dim)
 
     def forward(self, x:Tensor) -> Tensor: 
+        """Forward pass through the decoder.
+
+        Args:
+            x (Tensor): Input latent variable.
+
+        Returns:
+            Tensor: Reconstructed output.
+        """
         x = F.elu(self.fc1(x))
         x = self.fc2(x)
         if self.normalize_output:
@@ -265,11 +350,11 @@ class DenseDecoder(VAEDecoder):
 
 
 class GenVAE(nn.Module):
-    """Generic implementation for a VAE, involving a encoder and decoder, and necessary fuctions. 
+    """Generic implementation for a VAE, involving an encoder and decoder, and necessary functions. 
 
     Args:
         encoder (VAEEncoder): Encoder architecture to be used. 
-        decoder (VAEDecoder): Decoder architecture to be used. 
+        decoder (VAEDecoder): Decoder architecture to be used.
     """
     def __init__(self, encoder:VAEEncoder, decoder:VAEDecoder):
         super().__init__()
@@ -279,12 +364,16 @@ class GenVAE(nn.Module):
         self.decode = decoder
 
     def forward(self, x:Tensor) ->  tuple[Tensor, Tensor, Tensor, Tensor]:
-        # Encode
+        """Forward pass through the VAE.
+
+        Args:
+            x (Tensor): Input data.
+
+        Returns:
+            tuple[Tensor, Tensor, Tensor, Tensor]: Sampled latent variable, mean, log variance, and reconstructed output.
+        """
         z, z_mean, z_logvar = self.encode(x)
-
-        # Decode
         x_recon = self.decode(z)
-
         return z, z_mean, z_logvar, x_recon
     
     def loss_function(
@@ -295,18 +384,17 @@ class GenVAE(nn.Module):
             z_sampled:Tensor=None, 
             mask:Tensor=None,
             )  -> tuple[Tensor, Tensor, Tensor]:
-        """ Generic loss function. 
+        """Generic loss function for the VAE.
 
         Args:
-            x (Tensor): _description_
-            x_recon (Tensor): _description_
-            z_mean (Tensor): _description_
-            z_logvar (Tensor): _description_
-            beta (float, optional): _description_. Defaults to 1..
-            reduction (str, optional): _description_. Defaults to 'sum'.
+            x (Tensor): Original input data.
+            x_recon (Tensor): Reconstructed output.
+            z_params (dict): Dictionary containing 'mu' and 'logvar'.
+            z_sampled (Tensor, optional): Sampled latent variables. Defaults to None.
+            mask (Tensor, optional): Mask to apply to the input data. Defaults to None.
 
         Returns:
-            tuple[Tensor, Tensor, Tensor]: _description_
+            tuple[Tensor, Tensor, Tensor]: Total loss, reconstruction loss, and divergence loss.
         """
         divergence_loss = self.encode.divergence_loss(z_params, z_sampled)
         recon_loss = self.decode.recon_loss(x, x_recon, mask=mask)

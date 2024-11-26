@@ -1,3 +1,20 @@
+"""
+This module contains classes and functions for loading and managing datasets for a machine learning model.
+It includes configuration settings, dataset classes for various data sources, and methods for data preprocessing.
+
+Classes:
+    - Config: A dataclass for managing configuration settings for the datasets and model.
+    - TableDataset: A base class for creating PyTorch datasets from tabular data.
+    - DIANDataset: A dataset class for loading and processing DIAN data.
+    - ADNIDataset: A dataset class for loading and processing ADNI data.
+    - NACCDataset: A dataset class for loading and processing NACC data.
+    - DallasDataset: A dataset class for loading and processing Dallas data.
+    - OASISDataset: A dataset class for loading and processing OASIS data.
+
+Functions:
+    - load_config: Loads configuration settings from a YAML file and returns a Config object.
+"""
+
 import os
 from typing import AnyStr, Callable, List, Optional, Tuple, Dict, Union
 from dataclasses import dataclass, field
@@ -12,6 +29,37 @@ import random
 
 @dataclass
 class Config:
+    """
+    Configuration settings for datasets and model training.
+
+    Attributes:
+        datasets (List[str]): List of dataset names.
+        batch_size (int): Size of each batch during training.
+        modality (str): Modality of the data (e.g., 'mri').
+        selection (List[str]): Features to select from the dataset.
+        uptake_normalization (Optional[str]): Type of uptake normalization to apply.
+        subject_norm (str): Method for subject normalization.
+        only_id (bool): Flag to indicate if only IDs should be included.
+        exclude_nan (bool): Flag to indicate if rows with NaN values should be excluded.
+        exclude_ids (List[int]): List of IDs to exclude from the dataset.
+        train_val_split (List[float]): Proportions for splitting the dataset into training and validation sets.
+        ddata (int): Dimension of the data.
+        interm_dim (int): Intermediate dimension for model architecture.
+        kws_enc_loss (dict): Configuration for kernel-wise encoder loss.
+        recon_function (str): Reconstruction function to use.
+        kws_dec_loss (dict): Configuration for kernel-wise decoder loss.
+        out_norm (bool): Flag to indicate if output normalization should be applied.
+        model_name (str): Name of the model.
+        div_loss (str): Type of divergence loss to use.
+        beta (float): Weight for the loss function.
+        lr (float): Learning rate for the optimizer.
+        random_seed (int): Seed for random number generation.
+        early_stopping (bool): Flag to indicate if early stopping should be used.
+        n_epochs (int): Number of epochs for training.
+        max_iters (int): Maximum iterations for training.
+        savefigs (bool): Flag to indicate if figures should be saved.
+        device (str): Device to use for training (e.g., 'cuda').
+    """
 
     # Data config
     datasets: List[str] = field(default_factory=lambda: ['dian'])
@@ -48,12 +96,19 @@ class Config:
     device: str = 'cuda'
 
     def __post_init__(self):
+        """Post-initialization processing to set up the configuration."""
         self._datetime_init = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
         exp_name = self.generate_filename()
         self.filename = exp_name
         self.model_name = "_".join([self._datetime_init, self.model_name])
         
-    def generate_filename(self):
+    def generate_filename(self) -> str:
+        """
+        Generates a unique filename based on the configuration settings.
+
+        Returns:
+            str: The generated filename.
+        """
         exp_name = f'model[{self.div_loss};red:{self.kws_enc_loss["reduction"]}'
         if 'α' in self.kws_enc_loss.keys():
             exp_name += f";α:{self.kws_enc_loss['α']};λ:{self.kws_enc_loss['λ']}"
@@ -65,23 +120,60 @@ class Config:
 
     @classmethod
     def from_yaml(cls, file_path: str) -> 'Config':
+        """
+        Loads configuration settings from a YAML file.
+
+        Args:
+            file_path (str): Path to the YAML configuration file.
+
+        Returns:
+            Config: An instance of the Config class populated with settings from the file.
+        """
         with open(file_path, 'r') as file:
             config_dict = yaml.safe_load(file)
         return cls(**config_dict)
 
     
 def load_config(file_path: str) -> Config:
+    """
+    Loads configuration settings from a specified YAML file.
+
+    Args:
+        file_path (str): Path to the YAML configuration file.
+
+    Returns:
+        Config: An instance of the Config class with the loaded settings.
+    """
     return Config.from_yaml(file_path)
 
 
 
 class TableDataset(Dataset):
+    """
+    A base class for creating PyTorch datasets from tabular data.
 
+    This class is intended to be extended for specific datasets. It provides common methods for loading,
+    processing, and accessing data.
+
+    Attributes:
+        DBDIR (str): Directory where the dataset files are located.
+        config (Config): Configuration settings for the dataset.
+        name (str): Name of the dataset.
+        datafiles (Optional[dict]): Dictionary of data files associated with the dataset.
+        transform (Optional[Callable]): Optional transform to be applied to the data.
     """
-    An empty pytorch Dataset class to be expanded, and used in a DataLoader to create batches. Common methods
-    The objective is to return a dictionary containing the image data and identification (id, visit)
-    """
+
     def __init__(self, DBDIR: str, config: Config, name: str = None, datafiles: Optional[dict] = None, transform: Optional[Callable] = None):
+        """
+        Initializes the TableDataset with the given parameters.
+
+        Args:
+            DBDIR (str): Directory where the dataset files are located.
+            config (Config): Configuration object containing dataset parameters.
+            name (str, optional): Name of the dataset. Defaults to None.
+            datafiles (Optional[dict], optional): Dictionary of data files. Defaults to None.
+            transform (Optional[Callable], optional): Transform to apply to the data. Defaults to None.
+        """
         super().__init__()
         self.config = config
         self.name = name
@@ -103,6 +195,15 @@ class TableDataset(Dataset):
             self._exclude_nan()
 
     def _load_dataframe(self, DBDIR: str) -> pd.DataFrame:
+        """
+        Loads the dataset into a DataFrame.
+
+        Args:
+            DBDIR (str): Directory where the dataset files are located.
+
+        Raises:
+            NotImplementedError: This method should be implemented in subclasses.
+        """
         raise NotImplementedError
     
     def _update_variables(self):
@@ -157,6 +258,12 @@ class TableDataset(Dataset):
         return patients
         
     def _getall_(self) -> dict:
+        """
+        Retrieves all data from the dataset.
+
+        Returns:
+            dict: A dictionary containing the data, patient IDs, visit numbers, and dataset name.
+        """
         data = torch.from_numpy(self.dataframe.values.squeeze().astype('float32'))
 
         if self.norm is not None:
@@ -199,8 +306,17 @@ class TableDataset(Dataset):
         return len(self.patno)
     
     def _normalize(self, X: Tensor, ref: Optional[float] = None) -> Tensor:
+        """
+        Normalizes the input tensor based on the specified normalization method.
+
+        Args:
+            X (Tensor): Input tensor to normalize.
+            ref (Optional[float]): Reference value for normalization, if applicable.
+
+        Returns:
+            Tensor: Normalized tensor.
+        """
         assert self.norm in ['mean', 'std', 'range', 'ref']
-        # valtensor = torch.nan_to_num(X)
         norm = torch.nanmean(X, dim=0)
         if self.norm=='range':
             ref = torch.min(torch.nan_to_num(X, nan=1e4), dim=0).values
@@ -222,11 +338,17 @@ class TableDataset(Dataset):
         return Xnorm
     
     def _exclude_ids(self):
+        """
+        Excludes specified IDs from the dataset based on the configuration settings.
+        """
         include_ids = [el for el in self.features.reset_index().set_index('id').index.values if el not in self.config.exclude_ids]
         self._filter_dataframe_from_id_list(include_ids)
         self._update_variables()
 
     def _exclude_nan(self):
+        """
+        Excludes rows with NaN values from the dataset.
+        """
         self.dataframe = self.dataframe.dropna(axis=0)
         if self.norm=='ref':
             self.ref = self.ref.dropna(axis=0)
@@ -234,12 +356,24 @@ class TableDataset(Dataset):
         self._update_variables()
     
     def _filter_dataframe_from_id_list(self, id_list):
+        """
+        Filters the dataframe based on a list of IDs.
+
+        Args:
+            id_list (list): List of IDs to include in the filtered dataframe.
+        """
         proxy = self.features.reset_index().set_index('id')
         col_select = proxy.loc[id_list, 'index'].values
         self.dataframe = self.dataframe[col_select]
         self._update_variables()
     
     def _set_id_dataframe(self, features_path: str):
+        """
+        Sets the ID dataframe based on the features CSV file.
+
+        Args:
+            features_path (str): Path to the features CSV file.
+        """
         features_df = pd.read_csv(os.path.join(features_path))
         features_id = features_df.loc[features_df['id'].isna()==False]
         order_list = list(features_id[['feature', 'id']].set_index('id').sort_index().to_records())
@@ -249,14 +383,14 @@ class TableDataset(Dataset):
 
 
 class DIANDataset(TableDataset):
-
     """
     A PyTorch Dataset class to be used in a PyTorch DataLoader to create batches.
     This class loads data from the different csv files of DIAN and returns a dictionary containing the file data and associated target data.
     """
 
     def __init__(self, DBDIR: str, config: Config, transform: Optional[Callable] = None):
-        """Initialize the DIAN dataset.
+        """
+        Initializes the DIAN dataset.
 
         Args:
             DBDIR (str): Path to the directory containing DIAN data files.
@@ -283,6 +417,15 @@ class DIANDataset(TableDataset):
         
 
     def _load_dataframe(self, DBDIR: str) -> pd.DataFrame:
+        """
+        Loads the DIAN dataset into a DataFrame.
+
+        Args:
+            DBDIR (str): Directory where the DIAN data files are located.
+
+        Returns:
+            pd.DataFrame: DataFrame containing the loaded data.
+        """
         # Selection: level 2 features.  
         dataframe = pd.read_csv(os.path.join(DBDIR, self.datafiles[self.config.modality.upper()]))
         dataframe = dataframe.set_index(['newid14', 'visit'])
@@ -297,17 +440,33 @@ class DIANDataset(TableDataset):
         self.ref = dataframe['MR_TOTV_INTRACRANIAL']/100
 
 class ADNIDataset(TableDataset):
-
     """
     A PyTorch Dataset class to be used in a PyTorch DataLoader to create batches.
     This class loads images from a csv file and returns a dictionary containing the image and associated target data.
     """
     def __init__(self, DBDIR: str, config: Config, transform: Optional[Callable] = None):
+        """
+        Initializes the ADNI dataset.
+
+        Args:
+            DBDIR (str): Path to the directory containing ADNI data files.
+            config (Config): Configuration object containing dataset parameters.
+            transform (Optional[Callable], optional): Transform to apply to the data. Defaults to None.
+        """
         super().__init__(DBDIR=DBDIR, config=config, name='adni', 
                          datafiles={'MRI': 'data_merged_index_reset_unique.csv'}, 
                          transform=transform)
 
     def _load_dataframe(self, DBDIR: str) -> pd.DataFrame:
+        """
+        Loads the ADNI dataset into a DataFrame.
+
+        Args:
+            DBDIR (str): Directory where the ADNI data files are located.
+
+        Returns:
+            pd.DataFrame: DataFrame containing the loaded data.
+        """
         # Selection: level 2 features.  
         dataframe = pd.read_csv(DBDIR+'/data_merged_index_reset_unique.csv', index_col=[0,1])
         dataframe.index = dataframe.index.set_names(['newid14', 'visit'])
@@ -322,18 +481,25 @@ class ADNIDataset(TableDataset):
         elif self.config.selection[0]=='T': 
             self.dataframe = self.dataframe[[el for el in self.dataframe.columns if 'TA' in el]]
         else:
-            raise "Selection not recognised"
+            raise ValueError("Selection not recognised")
 
         self.ref = self.dataframe['ST10CV']/100
 
 
 class NACCDataset(TableDataset):
-
     """
     A PyTorch Dataset class to be used in a PyTorch DataLoader to create batches.
     This class loads images from a csv file and returns a dictionary containing the image and associated target data.
     """
     def __init__(self, DBDIR: str, config: Config, transform: Optional[Callable] = None):
+        """
+        Initializes the NACC dataset.
+
+        Args:
+            DBDIR (str): Path to the directory containing NACC data files.
+            config (Config): Configuration object containing dataset parameters.
+            transform (Optional[Callable], optional): Transform to apply to the data. Defaults to None.
+        """
         super().__init__(DBDIR, config, name='nacc', 
                          datafiles={'MRI': 'mri_nacc.csv',
                             'PIB': 'amyloid_nacc.csv',
@@ -342,6 +508,15 @@ class NACCDataset(TableDataset):
                          transform=transform)
 
     def _load_dataframe(self, DBDIR: str) -> pd.DataFrame:
+        """
+        Loads the NACC dataset into a DataFrame.
+
+        Args:
+            DBDIR (str): Directory where the NACC data files are located.
+
+        Returns:
+            pd.DataFrame: DataFrame containing the loaded data.
+        """
         # Selection: level 2 features.  
         dataframe = pd.read_csv(os.path.join(DBDIR, self.datafiles[self.config.modality.upper()]))
         dataframe = dataframe.set_index(['NACCID', 'NACCVNUM'])
@@ -357,18 +532,18 @@ class NACCDataset(TableDataset):
 
 
 class DallasDataset(TableDataset):
-
     """
     A PyTorch Dataset class to be used in a PyTorch DataLoader to create batches.
     This class loads images from a csv file and returns a dictionary containing the image and associated target data.
     """
     def __init__(self, DBDIR: str, config: Config, transform: Optional[Callable] = None):
-        """_summary_
+        """
+        Initializes the Dallas dataset.
 
         Args:
-            DBDIR (str): _description_
-            config (Config): _description_
-            transform (Optional[Callable], optional): _description_. Defaults to None.
+            DBDIR (str): Path to the directory containing Dallas data files.
+            config (Config): Configuration object containing dataset parameters.
+            transform (Optional[Callable], optional): Transform to apply to the data. Defaults to None.
         """
         super().__init__(DBDIR, config, name='dallas', 
                          datafiles={'MRI': 'mri_dallas.csv',
@@ -377,6 +552,15 @@ class DallasDataset(TableDataset):
                          transform=transform)
 
     def _load_dataframe(self, DBDIR: str) -> pd.DataFrame:
+        """
+        Loads the Dallas dataset into a DataFrame.
+
+        Args:
+            DBDIR (str): Directory where the Dallas data files are located.
+
+        Returns:
+            pd.DataFrame: DataFrame containing the loaded data.
+        """
         # Selection: level 2 features.  
         dataframe = pd.read_csv(os.path.join(DBDIR, self.datafiles[self.config.modality.upper()]))
         dataframe = dataframe.set_index(['id', 'visit'])
@@ -391,24 +575,33 @@ class DallasDataset(TableDataset):
 
 
 class OASISDataset(TableDataset):
-
     """
     A PyTorch Dataset class to be used in a PyTorch DataLoader to create batches.
     This class loads images from a csv file and returns a dictionary containing the image and associated target data.
     """
     def __init__(self, DBDIR: str, config: Config, transform: Optional[Callable] = None):
-        """_summary_
+        """
+        Initializes the OASIS dataset.
 
         Args:
-            DBDIR (str): _description_
-            config (Config): _description_
-            transform (Optional[Callable], optional): _description_. Defaults to None.
+            DBDIR (str): Path to the directory containing OASIS data files.
+            config (Config): Configuration object containing dataset parameters.
+            transform (Optional[Callable], optional): Transform to apply to the data. Defaults to None.
         """
         super().__init__(DBDIR, config, name='oasis', 
                          datafiles={'MRI': 'mri_oasis.csv'}, 
                          transform=transform)
 
     def _load_dataframe(self, DBDIR: str) -> pd.DataFrame:
+        """
+        Loads the OASIS dataset into a DataFrame.
+
+        Args:
+            DBDIR (str): Directory where the OASIS data files are located.
+
+        Returns:
+            pd.DataFrame: DataFrame containing the loaded data.
+        """
         # Selection: level 2 features.  
         dataframe = pd.read_csv(os.path.join(DBDIR, self.datafiles[self.config.modality.upper()]))
         dataframe = dataframe.set_index(['id', 'visit'])
