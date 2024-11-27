@@ -59,9 +59,8 @@ def main(config_path: str):
 
     data = pd.DataFrame.from_dict(losses).unstack().map(lambda x: x.item())
     data['ddim'] = config.ddata
-    results = pd.concat((results, data), axis=1)
-    print(results)
-    results.to_csv(os.path.join('runs', config.model_name, 'results', 'losses.csv'))
+    print(data)
+    data.to_csv(os.path.join('runs', config.model_name, 'results', 'losses.csv'))
     writer.close()
     del data_vae
     del optimizer
