@@ -40,7 +40,7 @@ def main(config_path: str):
                                      end_epoch=config.n_epochs)
     
     # Load and evaluate best performing model
-    data_vae.load_state_dict(torch.load(os.path.join(
+    data_vae.load_state_dict(torch.load(os.path.join('runs',
         config.model_name, 'models', config.filename+".pth")))
     data_vae = data_vae.to(config.device)
 
@@ -61,7 +61,7 @@ def main(config_path: str):
     data['ddim'] = config.ddata
     results = pd.concat((results, data), axis=1)
     print(results)
-    results.to_csv(os.path.join(config.model_name, 'results', 'losses.csv'))
+    results.to_csv(os.path.join('runs', config.model_name, 'results', 'losses.csv'))
     writer.close()
     del data_vae
     del optimizer

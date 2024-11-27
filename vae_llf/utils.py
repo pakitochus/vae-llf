@@ -59,7 +59,7 @@ from torch.utils.data import DataLoader, Dataset, SubsetRandomSampler
 from tqdm import tqdm
 from tensorboardX import SummaryWriter
 
-from loaders import ADNIDataset, DallasDataset, DIANDataset, NACCDataset, OASISDataset, Config
+from vae_llf.loaders import ADNIDataset, DallasDataset, DIANDataset, NACCDataset, OASISDataset, Config
 
 def create_dataset_dictionary(config: Config) -> Dict[str, Dataset]:
     """
@@ -154,14 +154,13 @@ def init_experiment(config):
     Args:
         config (Config): Configuration object.
     """
-    if os.path.exists(config.model_name):
-        shutil.rmtree(config.model_name)
+    if os.path.exists(os.path.join('runs', config.model_name)):
+        shutil.rmtree(os.path.join('runs', config.model_name))
 
     for subfolder in ['models', 'runs', 'results', 'figures']:
-        os.makedirs(os.path.join(config.model_name, subfolder))
+        os.makedirs(os.path.join('runs', config.model_name, subfolder))
 
-    shutil.copyfile('configs/config_ndim.yaml',
-                    os.path.join(config.model_name, 'config.yaml'))
+    config.to_yaml(os.path.join('runs', config.model_name, 'config.yaml'))
 
 
 def epoch_train(model: torch.nn.Module, 
@@ -327,7 +326,7 @@ def train(model: torch.nn.Module,
         best_val_loss = torch.inf
     count_iters = 0
     if writer is None:
-        writer = SummaryWriter(os.path.join(config.model_name, 'runs', config.filename))
+        writer = SummaryWriter(os.path.join('runs', config.model_name, 'runs', config.filename))
     train_loss = []
     for e in range(start_epoch, end_epoch):
         train_epoch, dict_loss = epoch_train(model, normalizer, train_loader, optimizer, config, e)
@@ -348,12 +347,12 @@ def train(model: torch.nn.Module,
                 if total_val_loss <= best_val_loss + 1e-3: # threshold to save model if there is no significant difference 
                     print(f'VAL [{total_val_loss}<{best_val_loss}]: Saving model...')
                     best_val_loss = total_val_loss
-                    torch.save(model.state_dict(), os.path.join(config.model_name, 'models', config.filename+".pth"))
+                    torch.save(model.state_dict(), os.path.join('runs', config.model_name, 'models', config.filename+".pth"))
                     count_iters = 0
                 count_iters += 1
                 if count_iters > config.max_iters:
                     print(f'{config.max_iters} with no improvement in validation. Ending loop')
-                    torch.save(model.state_dict(), os.path.join(config.model_name, 'models', config.filename+"_END.pth"))
+                    torch.save(model.state_dict(), os.path.join('runs', config.model_name, 'models', config.filename+"_END.pth"))
                     break
 
     return model, writer, e, best_val_loss
