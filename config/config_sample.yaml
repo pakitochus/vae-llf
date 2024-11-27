@@ -2,8 +2,8 @@
 
 # Dataset parameters
 datasets:
-  dian: '~/datasets/dian/DF14/'
-  adni: '~/datasets/ADNI_PROCESSED/'
+  dian:  /home/pakitochus/Universidad/Investigación/Databases/alzheimer/dian/DF14/ # '~/datasets/dian/DF14/'
+  adni:  /home/pakitochus/Universidad/Investigación/Databases/alzheimer/ADNI_PROCESSED/ # '~/datasets/ADNI_PROCESSED/'
 modality: 'mri'
 selection: ['V']
 uptake_normalization: null
@@ -38,7 +38,7 @@ kws_dec_loss:
 out_norm: false
 
 # Training parameters
-lr: 2e-3
+lr: 0.002
 n_epochs: 100000
 max_iters: 2000
 early_stopping: true
