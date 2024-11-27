@@ -20,7 +20,7 @@ from typing import AnyStr, Callable, List, Optional, Tuple, Dict, Union
 from dataclasses import dataclass, field
 import torch
 from torch import Tensor
-import torch.utils.data as Dataset
+from torch.utils.data import Dataset
 import numpy as np
 import pandas as pd
 import datetime
@@ -132,6 +132,16 @@ class Config:
         with open(file_path, 'r') as file:
             config_dict = yaml.safe_load(file)
         return cls(**config_dict)
+    
+    def to_yaml(self, file_path: str):
+        """
+        Saves the configuration settings to a YAML file.
+
+        Args:
+            file_path (str): Path to the YAML configuration file.
+        """
+        with open(file_path, 'w') as file:
+            yaml.dump(self.__dict__, file)
 
     
 def load_config(file_path: str) -> Config:
