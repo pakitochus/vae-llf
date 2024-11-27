@@ -1,5 +1,10 @@
 """
-Utility functions for training and evaluating VAE models, as well as dataset management.
+utils Module
+============
+
+This module contains utility functions and classes for the Variational Autoencoder for Latent Feature Analysis.
+
+.. currentmodule:: vae_llf.utils
 
 This module provides core functionality for:
     - Dataset management and creation

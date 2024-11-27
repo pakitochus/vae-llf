@@ -2,17 +2,96 @@
 This module contains classes and functions for loading and managing datasets for a machine learning model.
 It includes configuration settings, dataset classes for various data sources, and methods for data preprocessing.
 
-Classes:
-    - Config: A dataclass for managing configuration settings for the datasets and model.
-    - TableDataset: A base class for creating PyTorch datasets from tabular data.
-    - DIANDataset: A dataset class for loading and processing DIAN data.
-    - ADNIDataset: A dataset class for loading and processing ADNI data.
-    - NACCDataset: A dataset class for loading and processing NACC data.
-    - DallasDataset: A dataset class for loading and processing Dallas data.
-    - OASISDataset: A dataset class for loading and processing OASIS data.
+.. currentmodule:: vae_llf.loaders
 
-Functions:
-    - load_config: Loads configuration settings from a YAML file and returns a Config object.
+Classes
+-------
+- Config
+    Configuration settings for datasets and model training.
+
+    Attributes:
+        datasets (Dict[str, str]): Dictionary of dataset names and paths.
+        batch_size (int): Size of each batch during training.
+        modality (str): Modality of the data (e.g., 'mri').
+        selection (List[str]): Features to select from the dataset.
+        uptake_normalization (Optional[str]): Type of uptake normalization to apply.
+        subject_norm (str): Method for subject normalization.
+        only_id (bool): Flag to indicate if only IDs should be included.
+        exclude_nan (bool): Flag to indicate if rows with NaN values should be excluded.
+        exclude_ids (List[int]): List of IDs to exclude from the dataset.
+        train_val_split (List[float]): Proportions for splitting the dataset into training and validation sets.
+        ddata (int): Dimension of the data.
+        interm_dim (int): Intermediate dimension for model architecture.
+        kws_enc_loss (dict): Configuration for kernel-wise encoder loss.
+        recon_function (str): Reconstruction function to use.
+        kws_dec_loss (dict): Configuration for kernel-wise decoder loss.
+        out_norm (bool): Flag to indicate if output normalization should be applied.
+        model_name (str): Name of the model.
+        div_loss (str): Type of divergence loss to use.
+        beta (float): Weight for the loss function.
+        lr (float): Learning rate for the optimizer.
+        random_seed (int): Seed for random number generation.
+        early_stopping (bool): Flag to indicate if early stopping should be used.
+        n_epochs (int): Number of epochs for training.
+        max_iters (int): Maximum iterations for training.
+        savefigs (bool): Flag to indicate if figures should be saved.
+        device (str): Device to use for training (e.g., 'cuda').
+
+    Methods:
+        __post_init__(): Post-initialization processing to set up the configuration.
+        generate_filename(): Generates a unique filename based on the configuration settings.
+        from_yaml(file_path: str) -> 'Config': Loads configuration settings from a YAML file.
+        to_yaml(file_path: str): Saves the configuration settings to a YAML file.
+
+- TableDataset
+    A base class for creating PyTorch datasets from tabular data.
+
+    Attributes:
+        DBDIR (str): Directory where the dataset files are located.
+        config (Config): Configuration settings for the dataset.
+        name (str): Name of the dataset.
+        datafiles (Optional[dict]): Dictionary of data files associated with the dataset.
+        transform (Optional[Callable]): Optional transform to be applied to the data.
+
+    Methods:
+        __init__(DBDIR: str, config: Config, name: str = None, datafiles: Optional[dict] = None, transform: Optional[Callable] = None): Initializes the TableDataset with the given parameters.
+        _load_dataframe(DBDIR: str) -> pd.DataFrame: Loads the dataset into a DataFrame.
+        _update_variables(): Updates the internal variables of the dataset based on the current state of the dataframe.
+        patno_split_dataset(rates: List[float] = [0.8, 0.2], random_seed: int = 10) -> Tuple[List[int], ...]: Splits the dataset into training, validation, and possibly test sets based on patient number (PATNO).
+        _getall_() -> dict: Retrieves all data from the dataset.
+        __getitem__(index: int) -> Dict[str, Union[Tensor, str, int]]: Returns the image and the target data for a given index.
+        __len__() -> int: Returns the total number of images.
+        _normalize(X: Tensor, ref: Optional[float] = None) -> Tensor: Normalizes the input tensor based on the specified normalization method.
+        _exclude_ids(): Excludes specified IDs from the dataset based on the configuration settings.
+        _exclude_nan(): Excludes rows with NaN values from the dataset.
+        _filter_dataframe_from_id_list(id_list): Filters the dataframe based on a list of IDs.
+        _set_id_dataframe(features_path: str): Sets the ID dataframe based on the features CSV file.
+
+- DIANDataset
+    A PyTorch Dataset class to be used in a PyTorch DataLoader to create batches. This class loads data from the different csv files of DIAN and returns a dictionary containing the file data and associated target data.
+
+- ADNIDataset
+    A PyTorch Dataset class to be used in a PyTorch DataLoader to create batches. This class loads images from a csv file and returns a dictionary containing the image and associated target data.
+
+- NACCDataset
+    A PyTorch Dataset class to be used in a PyTorch DataLoader to create batches. This class loads images from a csv file and returns a dictionary containing the image and associated target data.
+
+- DallasDataset
+    A PyTorch Dataset class to be used in a PyTorch DataLoader to create batches. This class loads images from a csv file and returns a dictionary containing the image and associated target data.
+
+- OASISDataset
+    A PyTorch Dataset class to be used in a PyTorch DataLoader to create batches. This class loads images from a csv file and returns a dictionary containing the image and associated target data.
+
+Functions
+---------
+load_config(file_path: str) -> Config
+    Loads configuration settings from a specified YAML file.
+
+    Args:
+        file_path (str): Path to the YAML configuration file.
+
+    Returns:
+        Config: An instance of the Config class with the loaded settings.
 """
 
 import os

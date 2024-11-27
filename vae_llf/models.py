@@ -1,4 +1,7 @@
 """
+models Module
+=============
+
 Implementation of the models for the Variational Autoencoder for Latent Feature Analysis.
 
 This module contains the implementation of various encoder and decoder architectures 
@@ -6,15 +9,122 @@ for a Variational Autoencoder (VAE), including the generic VAE encoder and decod
 as well as specific implementations like DenseEncoder, DenseDecoder, MMDEncoder, 
 and their respective loss functions.
 
-Classes:
---------
-- VAEEncoder: Base class for VAE encoders.
-- MMDEncoder: Extension of VAEEncoder that computes Maximum Mean Discrepancy (MMD).
-- VAEDecoder: Base class for VAE decoders.
-- DenseEncoder: A 2-layer perceptron encoder for tabular data.
-- DenseDecoder: A 2-layer perceptron decoder for tabular data.
-- DenseMMDEncoder: A 2-layer perceptron MMD encoder for tabular data.
-- GenVAE: Generic implementation of a VAE that combines an encoder and a decoder.
+.. currentmodule:: vae_llf.models
+
+Classes
+-------
+
+- VAEEncoder
+    Base class for generic VAE Encoder.
+
+    Args:
+        latent_dim (int, optional): Dimension of the latent space. Defaults to 20.
+        kws_loss (dict, optional): Keyword arguments for loss computation. Defaults to {'reduction':'sum', 'β': 1.0}.
+
+    Methods
+    -------
+    forward(x: Tensor) -> Tensor
+        Forward pass through the encoder.
+
+    predict_fn(X: numpy.ndarray) -> numpy.ndarray
+        Predicts the latent variables for the input data.
+
+    reparameterize(mu: Tensor, logvar: Tensor) -> Tensor
+        Performs the reparameterization trick.
+
+    _kl_divergence(mu: Tensor, logvar: Tensor) -> Tensor
+        Computes the Kullback-Leibler divergence.
+
+    divergence_loss(z_params: dict = None, z_sampled: Tensor = None) -> Tensor
+        Computes the Kullback-Leibler divergence between the latent distribution (mu, logvar) and N(0,1).
+
+- MMDEncoder
+    Extension of VAEEncoder that computes Maximum Mean Discrepancy (MMD).
+
+    Methods
+    -------
+    rbf_kernel(z1: Tensor, z2: Tensor) -> Tensor
+        Computes the RBF kernel between two sets of latent variables.
+
+    imq_kernel(z1: Tensor, z2: Tensor) -> Tensor
+        Computes the Inverse Multiquadric kernel between two sets of latent variables.
+
+    compute_mmd(z: Tensor, z_prior: Tensor) -> Tensor
+        Computes the Maximum Mean Discrepancy between two distributions.
+
+    divergence_loss(z_params: dict = None, z_sampled: Tensor = None) -> Tensor
+        Computes the divergence loss using MMD.
+
+- VAEDecoder
+    Base class for generic VAE Decoder.
+
+    Args:
+        latent_dim (int, optional): Dimension of the latent space. Defaults to 20.
+        recon_function (callable, optional): Function to compute reconstruction loss. Defaults to F.mse_loss.
+        kws_loss (dict, optional): Keyword arguments for loss computation. Defaults to {'reduction':'sum'}.
+
+    Methods
+    -------
+    forward(x: Tensor) -> Tensor
+        Forward pass through the decoder.
+
+    recon_loss(targets: Tensor, predictions: Tensor, mask: Tensor = None) -> Tensor
+        Computes the VAE reconstruction loss assuming Gaussian distribution of the data.
+
+- DenseEncoder
+    Implementation of a 2-layer perceptron that works as an encoder for tabular data.
+
+    Args:
+        input_dim (int): Dimension of the input tabular data.
+        intermediate_dim (int): Number of neurons in the hidden layer.
+        latent_dim (int, optional): Dimension of the latent space. Defaults to 20.
+
+    Methods
+    -------
+    forward(x: Tensor) -> tuple[Tensor, Tensor, Tensor]
+        Forward pass through the encoder.
+
+- DenseMMDEncoder
+    Implementation of a 2-layer perceptron MMD that works as an encoder for tabular data.
+
+    Args:
+        input_dim (int): Dimension of the input tabular data.
+        intermediate_dim (int): Number of neurons in the hidden layer.
+        latent_dim (int, optional): Dimension of the latent space. Defaults to 20.
+
+    Methods
+    -------
+    forward(x: Tensor) -> tuple[Tensor, Tensor, Tensor]
+        Forward pass through the MMD encoder.
+
+- DenseDecoder
+    Implementation of a 2-layer perceptron that works as a decoder for tabular data.
+
+    Args:
+        intermediate_dim (int): Number of neurons in the hidden layer.
+        output_dim (int): Dimension of the output data.
+        latent_dim (int, optional): Dimension of the latent space. Defaults to 20.
+        normalize_output (bool, optional): Whether to normalize the output. Defaults to True.
+
+    Methods
+    -------
+    forward(x: Tensor) -> Tensor
+        Forward pass through the decoder.
+
+- GenVAE
+    Generic implementation for a VAE, involving an encoder and decoder, and necessary functions.
+
+    Args:
+        encoder (VAEEncoder): Encoder architecture to be used.
+        decoder (VAEDecoder): Decoder architecture to be used.
+
+    Methods
+    -------
+    forward(x: Tensor) -> tuple[Tensor, Tensor, Tensor, Tensor]
+        Forward pass through the VAE.
+
+    loss_function(x: Tensor, x_recon: Tensor, z_params: dict, z_sampled: Tensor = None, mask: Tensor = None) -> tuple[Tensor, Tensor, Tensor]
+        Generic loss function for the VAE.
 
 """
 
