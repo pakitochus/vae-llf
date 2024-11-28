@@ -4,6 +4,9 @@ This package implements a Variational Autoencoder (VAE) for Latent Feature Analy
 # Easy Usage
 To get started with this package, follow these steps:
 
+[!ALERT]
+This documentation is auto-generated from the docstrings in the code. The package is under active development, and we do not provide yet a stable API.
+
 1. **Install Dependencies**: Ensure you have the required libraries installed. You can do this using pip:
    ```
    pip install -r requirements.txt
