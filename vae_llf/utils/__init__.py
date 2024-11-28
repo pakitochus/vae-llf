@@ -1,10 +1,10 @@
 """
-utils Module
-============
-
-This module contains utility functions and classes for the Variational Autoencoder for Latent Feature Analysis.
+Utils (:mod:`vae_llf.utils`)
+============================
 
 .. currentmodule:: vae_llf.utils
+
+This module contains utility functions and classes for the Variational Autoencoder for Latent Feature Analysis.
 
 This module provides core functionality for:
     - Dataset management and creation
@@ -13,46 +13,18 @@ This module provides core functionality for:
     - Training loop with early stopping
 
 Functions:
-    create_dataset_dictionary(config: Config) -> Dict[str, Dataset]:
-        Creates a dictionary of datasets based on the configuration.
 
-    create_combined_dataloaders(config: Config) -> Tuple[DataLoader, DataLoader, DataLoader]:
-        Creates combined DataLoaders for training, validation, and testing datasets based on the provided configuration.
+.. autosummary::
+   :toctree: generated/
 
-    epoch_train(model, normalizer, loader, optimizer, config, e) -> Tuple[torch.Tensor, Dict[str, float]]:
-        Performs a single epoch of training on the given model.
+   create_dataset_dictionary
+   create_combined_dataloaders
+   init_experiment
+   epoch_train
+   evaluate
+   weights_init
+   train
 
-    evaluate(model, normalizer, loader, config, e, return_outputs=False) -> Union[torch.Tensor, Tuple]:
-        Evaluates the model on a given dataset.
-
-    weights_init(m):
-        Initializes the weights of linear layers using Xavier uniform initialization.
-
-    train(model, optimizer, config, normalizer, train_loader, val_loader, ...) -> Tuple:
-        Trains the model for multiple epochs, including validation and early stopping.
-
-Example:
-    >>> import torch
-    >>> from vae_llf.utils import train, weights_init
-    >>> 
-    >>> # Initialize model and apply weight initialization
-    >>> model = YourVAEModel()
-    >>> model.apply(weights_init)
-    >>> 
-    >>> # Setup training components
-    >>> optimizer = torch.optim.Adam(model.parameters())
-    >>> config = YourConfig()
-    >>> normalizer = lambda x: x  # Your normalization function
-    >>> 
-    >>> # Train the model
-    >>> model, writer, final_epoch, best_loss = train(
-    ...     model=model,
-    ...     optimizer=optimizer,
-    ...     config=config,
-    ...     normalizer=normalizer,
-    ...     train_loader=train_loader,
-    ...     val_loader=val_loader
-    ... )
 """
 
 import os
@@ -64,7 +36,9 @@ from torch.utils.data import DataLoader, Dataset, SubsetRandomSampler
 from tqdm import tqdm
 from tensorboardX import SummaryWriter
 
-from vae_llf.loaders import ADNIDataset, DallasDataset, DIANDataset, NACCDataset, OASISDataset, Config
+from vae_llf.loaders import Config, ADNIDataset, DallasDataset, DIANDataset, NACCDataset, OASISDataset
+
+__all__ = ['create_dataset_dictionary', 'create_combined_dataloaders', 'init_experiment', 'epoch_train', 'evaluate', 'weights_init', 'train']
 
 def create_dataset_dictionary(config: Config) -> Dict[str, Dataset]:
     """
