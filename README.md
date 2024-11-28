@@ -1,11 +1,11 @@
 # Overview
 This package implements a Variational Autoencoder (VAE) for Latent Feature Analysis, designed to handle various datasets, including ADNI and DIAN. The VAE architecture consists of an encoder and decoder, allowing for efficient representation learning and reconstruction of input data.
 
-# Easy Usage
-To get started with this package, follow these steps:
-
 > [!CAUTION]
 > This documentation is auto-generated from the docstrings in the code. The package is under active development, and we do not provide yet a stable API.
+
+# Easy Usage
+To get started with this package, follow these steps:
 
 1. **Install Dependencies**: Ensure you have the required libraries installed. You can do this using pip:
    ```
