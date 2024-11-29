@@ -29,4 +29,4 @@ For more detailed information, refer to the documentation within the code and th
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 # Acknowledgments
-We acknowledge the contributions of the research community and the datasets used in this project.
+This software is part of the [LATiDOS](https://pakitochus.github.io/research/2023-09-01-project-latidos/) project (ref. PID2022-137629OA-I00) funded by MICIU/AEI/10.13039/501100011033 and by ERDF/EU. 
